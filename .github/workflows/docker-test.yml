@@ -22,7 +22,7 @@ jobs:
 
       - name: Run tests
         run: |
-          docker-compose -f .devcontainer/docker-compose.yml exec devcontainer bash -c "cd cbase && make test && ./bin/test"
+          docker-compose -f .devcontainer/docker-compose.yml exec -T devcontainer bash -c "cd cbase && make test && ./bin/test"
 
       - name: Tear down Docker Compose
         run: |
