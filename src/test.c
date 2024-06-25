@@ -20,6 +20,10 @@
   #define DT_REG 2
 #endif
 
+#ifndef PATH_MAX
+  #define PATH_MAX 4096
+#endif
+
 #ifndef WEXITSTATUS
   #define WEXITSTATUS(l) 0
 #endif

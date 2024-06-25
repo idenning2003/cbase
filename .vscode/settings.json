@@ -13,7 +13,8 @@
     "errno.h": "c",
     "stdio.h": "c",
     "a_internal.h": "c",
-    "features.h": "c"
+    "features.h": "c",
+    "string.h": "c"
   },
   "C_Cpp.codeAnalysis.clangTidy.enabled": true,
   "C_Cpp.codeAnalysis.runAutomatically": true,
