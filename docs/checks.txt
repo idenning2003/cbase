@@ -1,0 +1,7 @@
+- h80 character wide
+dyoxygen function headers
+dyoxygen .h file headers
+all tests pass with no memory leaks
+struct item size order
+function definition order vs implementation order
+include global first <space> local second <space>
