@@ -79,7 +79,7 @@ void _assert_excerpt(const char* file, size_t row) {
     return;
 
   char linestr[21];
-  sprintf(linestr, "%5lu", row);
+  sprintf(linestr, "%5zu", row);
   fprintf(stderr, "%s | ", linestr);
 
   int c = 0;
@@ -128,7 +128,7 @@ void _assert_out(
   }
   if (funcname) fprintf(
     stderr,
-    "%s:%lu:%lu %s%s: " RST "in " CYN "%s()" RST ". %s\n",
+    "%s:%zu:%zu %s%s: " RST "in " CYN "%s()" RST ". %s\n",
     file,
     row,
     col,
@@ -139,7 +139,7 @@ void _assert_out(
   );
   else fprintf(
     stderr,
-    "%s:%lu:%lu %s%s: " RST "%s\n",
+    "%s:%zu:%zu %s%s: " RST "%s\n",
     file,
     row,
     col,

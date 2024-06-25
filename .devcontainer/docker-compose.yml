@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.3'
 
 services:
   devcontainer:
@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     hostname: dev
     volumes:
-      - ..:/home/user/cbase:bind
+      - ..:/home/user/cbase:rw
       - ~/.ssh/id_rsa:/home/user/.ssh/id_rsa:ro
       - ~/.ssh/id_rsa.pub:/home/user/.ssh/id_rsa.pub:ro
     command: sleep infinity
