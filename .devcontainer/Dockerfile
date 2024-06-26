@@ -1,7 +1,7 @@
 FROM alpine:latest
 
 RUN apk update && \
-	apk upgrade && \
+    apk upgrade && \
     apk add --no-cache sudo bash zsh gcc make libc-dev valgrind tar git gnupg openssh-client
 
 ARG USERNAME=user
