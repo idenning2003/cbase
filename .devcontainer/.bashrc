@@ -4,3 +4,4 @@ else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 alias ls='ls -Aph --group-directories-first --color=auto'
+alias hexdump='hexdump -C'
