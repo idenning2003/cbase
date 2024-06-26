@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     hostname: dev
     volumes:
-      - ..:/home/user/cbase:rw
+      - ..:/home/user/cbase:bind
       - ~/.ssh/id_rsa:/home/user/.ssh/id_rsa:ro
       - ~/.ssh/id_rsa.pub:/home/user/.ssh/id_rsa.pub:ro
       - ~/.gnupg:/home/user/.gnupg:ro
