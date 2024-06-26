@@ -8,6 +8,5 @@ services:
     hostname: dev
     volumes:
       - ..:/home/user/cbase:rw
-      - ~/.ssh/id_rsa:/home/user/.ssh/id_rsa:ro
-      - ~/.ssh/id_rsa.pub:/home/user/.ssh/id_rsa.pub:ro
+      - ~/.ssh:/home/user/.ssh:rw
     command: sleep infinity
