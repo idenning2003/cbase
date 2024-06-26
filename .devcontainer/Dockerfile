@@ -21,5 +21,6 @@ RUN chown -R $USERNAME:$USERNAME /home/$USERNAME
 
 COPY .bashrc /home/$USERNAME
 RUN mkdir -p /home/$USERNAME/.ssh && chmod 775 /home/$USERNAME/.ssh
+RUN mkdir -p /home/$USERNAME/.gnupg && chmod 775 /home/$USERNAME/.gnupg
 
 CMD ["bash"]
