@@ -1,0 +1,26 @@
+{
+  "editor.rulers": [
+    80
+  ],
+  "editor.tabSize": 2,
+  "files.associations": {
+    "list.h": "c",
+    "global.h": "c",
+    "assert.h": "c",
+    "dirent.h": "c",
+    "limits.h": "c",
+    "stdlib.h": "c",
+    "errno.h": "c",
+    "stdio.h": "c",
+    "a_internal.h": "c",
+    "features.h": "c",
+    "string.h": "c"
+  },
+  "C_Cpp.codeAnalysis.clangTidy.enabled": true,
+  "C_Cpp.codeAnalysis.runAutomatically": true,
+  "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
+    "clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling",
+    "clang-analyzer-security.insecureAPI.strcpy",
+    "clang-diagnostic-unknown-attributes",
+  ]
+}
