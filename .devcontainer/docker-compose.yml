@@ -7,4 +7,5 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ..:/workspaces/cbase:rw
+      - ~/.ssh:/home/dev/.ssh:ro
     command: sleep infinity

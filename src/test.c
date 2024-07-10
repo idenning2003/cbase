@@ -36,9 +36,21 @@ int main(UNUSED int argc, UNUSED char* argv[]) {
   struct dirent *de;
   int err = 0, status = 0;
   char s[PATH_MAX];
-  char cmd[] = "timeout 5 ";
-               //"valgrind -q --leak-check=full --error-exitcode=117 ";
-  char full[sizeof(s) / sizeof(*s) + sizeof(cmd) / sizeof(*cmd)];
+
+  // Check the public ssh key hash to disable valgrind on raspberry pi runner
+  // TODO change this method to something more sensible or get a better runner.
+  char hash_cmd[] = "[ "
+                        "$(md5sum /home/dev/.ssh/id_rsa.pub | "
+                        "awk '{print $1}') "
+                      "== "
+                        "'9c55f619dba0eb1c0ccb6cc790b842dc' "
+                    "]";
+  char cmd[] = "timeout 5 "
+               "valgrind -q --leak-check=full --error-exitcode=117 ";
+  if (!WEXITSTATUS(system(hash_cmd)))
+    cmd[10] = '\0';
+  int cmd_len = strlen(cmd);
+  char full[sizeof(s) / sizeof(*s) + cmd_len + 1];
   strcpy(full, cmd);
   while ((de = readdir(dr)) != NULL) {
     if (de->d_type == DT_REG) {
@@ -51,7 +63,7 @@ int main(UNUSED int argc, UNUSED char* argv[]) {
       for (int i = 0; i < (69 - len) / 2 + (69 - len) % 2; i++)
         printf("-");
       printf("\n");
-      strcpy(full + sizeof(cmd) / sizeof(*cmd) - 1, s);
+      strcpy(full + cmd_len, s);
       status = WEXITSTATUS(system(full));
       if (status == 124)
         printf(RED "TIMEOUT ERROR\n" RST);
