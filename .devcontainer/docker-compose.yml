@@ -1,0 +1,10 @@
+version: '3.3'
+
+services:
+  devcontainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspaces/cbase:rw
+    command: sleep infinity

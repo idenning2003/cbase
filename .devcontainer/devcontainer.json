@@ -1,0 +1,35 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/java
+{
+  "name": "cbase",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh/id_rsa,target=/home/dev/.ssh/id_rsa,type=bind,readonly,consistency=cached",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh/id_rsa.pub,target=/home/dev/.ssh/id_rsa.pub,type=bind,readonly,consistency=cached",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/dev/.gitconfig,type=bind,readonly,consistency=cached"
+  ],
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+      },
+      "extensions": [
+        "ms-vscode.cpptools-extension-pack",
+        "visualstudioexptteam.vscodeintellicode",
+        "mechatroner.rainbow-csv",
+        "ms-azuretools.vscode-docker",
+        "redhat.fabric8-analytics",
+        "ms-vscode.makefile-tools",
+        "eamodio.gitlens",
+        "github.vscode-pull-request-github",
+        "github.vscode-github-actions",
+        "shardulm94.trailing-spaces"
+      ]
+    }
+  },
+
+  "remoteUser": "dev"
+}
