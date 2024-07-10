@@ -1,0 +1,33 @@
+name: Docker Test
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  test:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Tear down Docker Compose
+        run: |
+          docker-compose -f .devcontainer/docker-compose.yml down
+
+      - name: Set up Docker Compose
+        run: |
+          docker-compose -f .devcontainer/docker-compose.yml up -d
+
+      - name: Run tests
+        run: |
+          docker-compose -f .devcontainer/docker-compose.yml exec -T devcontainer bash -c "cd /workspaces/cbase && make test && ./bin/test"
+
+      - name: Tear down Docker Compose
+        run: |
+          docker-compose -f .devcontainer/docker-compose.yml down
