@@ -134,7 +134,7 @@ uint8_t list_goto(list_t* l, size_t index) {
  *    [EXIT_SUCCESS, ERANGE]
  */
 uint8_t list_at(const list_t* l, list_item_t** item, size_t index) {
-  list_node_internal_t* n = _head.next;
+  __list_node_t* n = _head.next;
   size_t index2 = 0;
   if (index >= _size)
     return ERANGE;
@@ -380,7 +380,7 @@ list_t* list_copy(const list_t* l) {
   );
   if (l2 == NULL)
     return NULL;
-  list_node_internal_t* n = &_head;
+  __list_node_t* n = &_head;
   while ((n = n->next) != &_tail) {
     if (list_append(l2, n->data))
       return NULL;
@@ -396,8 +396,8 @@ list_t* list_copy(const list_t* l) {
  *    [EXIT_SUCCESS]
  */
 uint8_t list_reverse(list_t* l) {
-  list_node_internal_t* n1 = &_head;
-  list_node_internal_t* n2 = &_tail;
+  __list_node_t* n1 = &_head;
+  __list_node_t* n2 = &_tail;
   while (n1 != n2 && n2->next != n1) {
     list_item_t* temp;
     temp = n1->data;
@@ -433,7 +433,7 @@ uint8_t list_unorder(list_t* l) {
  *    [EXIT_SUCCESS, ENOENT]
  */
 uint8_t list_indexof(const list_t* l, size_t* index, const list_item_t* item) {
-  list_node_internal_t* n = &_head;
+  __list_node_t* n = &_head;
   size_t index2 = 0;
   while ((n = n->next) != &_tail) {
     if (__list_item_cmp(l, item, n->data)) {
@@ -475,7 +475,7 @@ int list_cmp(UNUSED const list_t* l, UNUSED const list_t* item) {
  * @return text_t* Text object for this list.
  */
 text_t* list_totext(const list_t* l) {
-  list_node_internal_t* n = &_head;
+  __list_node_t* n = &_head;
   text_t* t = text_create();
   text_t* temp;
   text_append(t, '[');
@@ -521,7 +521,7 @@ uint8_t list_print(const list_t* l) {
  *    [EXIT_SUCCESS, ENOMEM]
  */
 uint8_t __list_node_insert(list_t* l, list_item_t* item) {
-  list_node_internal_t* n = (list_node_internal_t*)malloc(sizeof(*n));
+  __list_node_t* n = (__list_node_t*)malloc(sizeof(*n));
   if (n == NULL)
     return ENOMEM;
   if (_iter == &_head) {
@@ -548,7 +548,7 @@ uint8_t __list_node_insert(list_t* l, list_item_t* item) {
  * @return uint8_t Status code
  *    [EXIT_SUCCESS]
  */
-uint8_t __list_node_delete(list_t* l, list_node_internal_t* n) {
+uint8_t __list_node_delete(list_t* l, __list_node_t* n) {
   n->prev->next = n->next;
   n->next->prev = n->prev;
   _size--;
