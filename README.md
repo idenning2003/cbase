@@ -76,7 +76,8 @@ strictly prohibited. I ([idenning2003](idenning2003)) have a personal vendetta
 against trailing whitespace.
 
 ### 6. Constant Qualifier
-Use it whenever it is possible and would make sense.
+Use it whenever it is possible in function parameters and whenever it make sense
+in return types.
 
 ### 7. Function Headers
 All function definitions except for test funtions marked with

@@ -22,7 +22,7 @@ uint8_t global_line_check(char* filename) {
         (temp == ' ' || temp == '\t')
       ) {
         err |= _assert_fail(
-          WARNING,
+          ERROR,
           "Trailing whitespace.",
           filename,
           NULL,
@@ -34,7 +34,7 @@ uint8_t global_line_check(char* filename) {
         char* line = text_tostring(t);
         if (!strncmp(line, "#include", 8)) {
           _assert_true(
-            WARNING,
+            ERROR,
             (line[8] == ' ' && line[9] == '"') ||
             (line[8] == ' ' && line[9] == '<'),
             "Include does not follow standards.",
@@ -48,7 +48,7 @@ uint8_t global_line_check(char* filename) {
       }
       if (col > 80)
         err |= _assert_fail(
-          WARNING,
+          ERROR,
           "Line too long.",
           filename,
           NULL,
