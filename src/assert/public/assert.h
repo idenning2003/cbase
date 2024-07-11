@@ -16,7 +16,7 @@
  * @param s Error string
  */
 #define assert_true(l, v, s) ({ \
-  uint8_t _a_temp_ = _assert_true( \
+  uint8_t _a_temp_ = __assert_true( \
     l, \
     v, \
     s, \
@@ -37,7 +37,7 @@
  * @param s Error string
  */
 #define assert_false(l, v, s) ({ \
-  uint8_t _a_temp_ = _assert_false( \
+  uint8_t _a_temp_ = __assert_false( \
     l, \
     v, \
     s, \
@@ -57,7 +57,7 @@
  * @param s Error string
  */
 #define assert_fail(l, s) ({ \
-  uint8_t _a_temp_ = _assert_fail( \
+  uint8_t _a_temp_ = __assert_fail( \
     l, \
     s, \
     __FILE__, \
@@ -79,7 +79,7 @@
  */
 #define assert_equal(l, v1, v2, s) ({ \
   if (v1 != v2) { \
-    uint8_t _a_temp_ = _assert_fail( \
+    uint8_t _a_temp_ = __assert_fail( \
       l, \
       s, \
       __FILE__, \
@@ -102,7 +102,7 @@
  */
 #define assert_notequal(l, v1, v2, s) ({ \
   if (v1 != v2) { \
-    uint8_t _a_temp_ = _assert_fail( \
+    uint8_t _a_temp_ = __assert_fail( \
       l, \
       s, \
       __FILE__, \
@@ -124,7 +124,7 @@
  */
 #define assert_null(l, v, s) ({ \
   if (v) { \
-    uint8_t _a_temp_ = _assert_fail( \
+    uint8_t _a_temp_ = __assert_fail( \
       l, \
       s, \
       __FILE__, \
@@ -146,7 +146,7 @@
  */
 #define assert_notnull(l, v, s) ({ \
   if (!v) { \
-    uint8_t _a_temp_ = _assert_fail( \
+    uint8_t _a_temp_ = __assert_fail( \
       l, \
       s, \
       __FILE__, \
@@ -166,7 +166,7 @@ typedef enum __attribute__((__packed__)) {
 } assert_level_t;
 
 
-uint8_t _assert_true(
+uint8_t __assert_true(
   assert_level_t,
   bool,
   const char*,
@@ -176,7 +176,7 @@ uint8_t _assert_true(
   size_t
 );
 
-uint8_t _assert_false(
+uint8_t __assert_false(
   assert_level_t,
   bool,
   const char*,
@@ -186,7 +186,7 @@ uint8_t _assert_false(
   size_t
 );
 
-uint8_t _assert_fail(
+uint8_t __assert_fail(
   assert_level_t,
   const char*,
   const char*,

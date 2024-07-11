@@ -20,14 +20,14 @@ typedef void list_item_t;
 struct list_node_struct;
 typedef struct list_node_struct list_node_internal_t;
 
-uint8_t _list_node_insert(list_t*, list_item_t*);
-uint8_t _list_node_delete(list_t*, list_node_internal_t*);
-int _list_item_cmp(
+uint8_t __list_node_insert(list_t*, list_item_t*);
+uint8_t __list_node_delete(list_t*, list_node_internal_t*);
+int __list_item_cmp(
   const list_t*,
   const list_item_t*,
   const list_item_t*
 );
-text_t* _ptr_totext(const void*);
+text_t* __ptr_totext(const void*);
 
 struct list_node_struct {
   list_item_t* data;
