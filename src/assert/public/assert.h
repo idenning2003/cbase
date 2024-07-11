@@ -25,7 +25,8 @@
     __LINE__, \
     0 \
   ); \
-  if (_a_temp_) return _a_temp_; \
+  if (_a_temp_) \
+    return _a_temp_; \
 })
 
 /**
@@ -45,7 +46,8 @@
     __LINE__, \
     0 \
   ); \
-  if (_a_temp_) return _a_temp_; \
+  if (_a_temp_) \
+    return _a_temp_; \
 })
 
 /**
@@ -63,7 +65,8 @@
     __LINE__, \
     0 \
   ); \
-  if (_a_temp_) return _a_temp_; \
+  if (_a_temp_) \
+    return _a_temp_; \
 })
 
 /**
@@ -84,7 +87,8 @@
       __LINE__, \
       0 \
     ); \
-    if (_a_temp_) return _a_temp_; \
+    if (_a_temp_) \
+      return _a_temp_; \
   } \
 }) \
 
@@ -106,7 +110,8 @@
       __LINE__, \
       0 \
     ); \
-    if (_a_temp_) return _a_temp_; \
+    if (_a_temp_) \
+      return _a_temp_; \
   } \
 }) \
 
@@ -127,7 +132,8 @@
       __LINE__, \
       0 \
     ); \
-    if (_a_temp_) return _a_temp_; \
+    if (_a_temp_) \
+      return _a_temp_; \
   } \
 }) \
 
@@ -148,7 +154,8 @@
       __LINE__, \
       0 \
     ); \
-    if (_a_temp_) return _a_temp_; \
+    if (_a_temp_) \
+      return _a_temp_; \
   } \
 }) \
 

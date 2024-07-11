@@ -1,3 +1,11 @@
+/**
+ * @file list.h
+ * @author Isaac Denning (117934828+idenning2003@users.noreply.github.com)
+ * @brief Definition of functions for the use of a doubly linked list with
+ * sentinel nodes and an iterator.
+ * @date 2024-07-11
+ */
+
 #ifndef LIST_H
 #define LIST_H
 

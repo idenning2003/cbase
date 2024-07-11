@@ -22,5 +22,11 @@
     "clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling",
     "clang-analyzer-security.insecureAPI.strcpy",
     "clang-diagnostic-unknown-attributes",
-  ]
+  ],
+  "doxdocgen.file.fileOrder": [
+    "file",
+    "author",
+    "brief",
+    "date"
+  ],
 }

@@ -69,7 +69,8 @@ uint8_t global_findall_files(list_t* files, char* path) { // Hello world
       sprintf(s + pathlen, "/%s", de->d_name);
       list_append(files, s);
     } else if (de->d_type == DT_DIR) {
-      if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, "..")) continue;
+      if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
+        continue;
       sprintf(path + pathlen, "/%s", de->d_name);
       global_findall_files(files, path);
       path[pathlen] = '\0';
