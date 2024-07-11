@@ -44,7 +44,7 @@ uint8_t text_front(text_t* t) {
   return EXIT_SUCCESS;
 }
 
-uint8_t _text_back(text_t* t) {
+uint8_t __text_back(text_t* t) {
   _iter = _back;
   _index = _length;
   return EXIT_SUCCESS;
@@ -88,7 +88,7 @@ bool text_has_next(text_t* t) {
 }
 
 uint8_t text_append(text_t* t, char c) {
-  _text_back(t);
+  __text_back(t);
   text_node_internal_t* n = (text_node_internal_t*)malloc(sizeof(*n));
   if (n == NULL) return ENOMEM;
   n->data = c;

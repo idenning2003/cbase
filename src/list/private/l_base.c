@@ -42,7 +42,7 @@ list_t* list_create(
   _item_cmp_func = item_cmp_func;
   _item_totext_func = item_totext_func;
   if (_item_totext_func == NULL)
-    _item_totext_func = _ptr_totext;
+    _item_totext_func = __ptr_totext;
   return (list_t*)_l;
 }
 
@@ -251,7 +251,7 @@ uint8_t list_place(list_t* l, list_item_t* item, size_t index) {
     if ((err = list_goto(l, index)))
       return err;
   }
-  return _list_node_insert(l, item);
+  return __list_node_insert(l, item);
 }
 
 /**
@@ -281,7 +281,7 @@ uint8_t list_insert(list_t* l, list_item_t* item) {
       }
     }
   }
-  return _list_node_insert(l, item);
+  return __list_node_insert(l, item);
 }
 
 /**
@@ -308,7 +308,7 @@ uint8_t list_delete(list_t* l, size_t index) {
   uint8_t err;
   if ((err = list_goto(l, index)))
     return err;
-  return _list_node_delete(l, _iter);
+  return __list_node_delete(l, _iter);
 }
 
 /**
@@ -325,8 +325,8 @@ uint8_t list_remove(list_t* l, const list_item_t* item) {
   if ((err = list_head(l)))
     return err;
   while (!list_next(l, &item2)) {
-    if (_list_item_cmp(l, item, item2)) {
-      if ((err = _list_node_delete(l, _iter)))
+    if (__list_item_cmp(l, item, item2)) {
+      if ((err = __list_node_delete(l, _iter)))
         return err;
       return EXIT_SUCCESS;
     }
@@ -351,9 +351,9 @@ uint8_t list_purge(list_t* l, const list_item_t* item) {
   if ((err = list_next(l, &item2)))
     return err;
   while (_iter != &_tail) {
-    if (_list_item_cmp(l, item, item2)) {
+    if (__list_item_cmp(l, item, item2)) {
       found = true;
-      if ((err = _list_node_delete(l, _iter)))
+      if ((err = __list_node_delete(l, _iter)))
         return err;
       item2 = _iter->data;
     } else {
@@ -436,7 +436,7 @@ uint8_t list_indexof(const list_t* l, size_t* index, const list_item_t* item) {
   list_node_internal_t* n = &_head;
   size_t index2 = 0;
   while ((n = n->next) != &_tail) {
-    if (_list_item_cmp(l, item, n->data)) {
+    if (__list_item_cmp(l, item, n->data)) {
       *index = index2;
       return EXIT_SUCCESS;
     }
@@ -520,7 +520,7 @@ uint8_t list_print(const list_t* l) {
  * @return uint8_t Status code
  *    [EXIT_SUCCESS, ENOMEM]
  */
-uint8_t _list_node_insert(list_t* l, list_item_t* item) {
+uint8_t __list_node_insert(list_t* l, list_item_t* item) {
   list_node_internal_t* n = (list_node_internal_t*)malloc(sizeof(*n));
   if (n == NULL)
     return ENOMEM;
@@ -548,7 +548,7 @@ uint8_t _list_node_insert(list_t* l, list_item_t* item) {
  * @return uint8_t Status code
  *    [EXIT_SUCCESS]
  */
-uint8_t _list_node_delete(list_t* l, list_node_internal_t* n) {
+uint8_t __list_node_delete(list_t* l, list_node_internal_t* n) {
   n->prev->next = n->next;
   n->next->prev = n->prev;
   _size--;
@@ -567,7 +567,7 @@ uint8_t _list_node_delete(list_t* l, list_node_internal_t* n) {
  * @param n2 Second node
  * @return int 0 if same else if different
  */
-int _list_item_cmp(
+int __list_item_cmp(
   const list_t* l,
   const list_item_t* item1,
   const list_item_t* item2
@@ -581,7 +581,7 @@ int _list_item_cmp(
  * @param ptr The pointer
  * @return text_t* The text
  */
-text_t* _ptr_totext(const void* ptr) {
+text_t* __ptr_totext(const void* ptr) {
   char arr[21];
   text_t* s = text_create();
   sprintf(arr, "%p", ptr);

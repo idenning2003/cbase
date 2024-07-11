@@ -9,7 +9,7 @@
 struct text_node_struct;
 typedef struct text_node_struct text_node_internal_t;
 
-uint8_t _text_back(text_t*);
+uint8_t __text_back(text_t*);
 
 struct text_node_struct {
   text_node_internal_t* next;

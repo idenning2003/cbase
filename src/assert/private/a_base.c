@@ -15,7 +15,7 @@
 #define WHT "\x1B[37m"
 #define RST "\x1B[0m"
 
-uint8_t _assert_true(
+uint8_t __assert_true(
   assert_level_t l,
   bool v,
   const char* message,
@@ -33,12 +33,12 @@ uint8_t _assert_true(
   );
   strcpy(full_message, s);
   strcpy(full_message + sizeof(s) / sizeof(*s) - 1, message);
-  _assert_out(l, full_message, file, funcname, row, col);
+  __assert_out(l, full_message, file, funcname, row, col);
   free(full_message);
   return l == ERROR;
 }
 
-uint8_t _assert_false(
+uint8_t __assert_false(
   assert_level_t l,
   bool v,
   const char* message,
@@ -56,12 +56,12 @@ uint8_t _assert_false(
   );
   strcpy(full_message, s);
   strcpy(full_message + sizeof(s) / sizeof(*s) - 1, message);
-  _assert_out(l, full_message, file, funcname, row, col);
+  __assert_out(l, full_message, file, funcname, row, col);
   free(full_message);
   return l == ERROR;
 }
 
-uint8_t _assert_fail(
+uint8_t __assert_fail(
   assert_level_t l,
   const char* message,
   const char* file,
@@ -69,11 +69,11 @@ uint8_t _assert_fail(
   size_t row,
   size_t col
 ) {
-  _assert_out(l, message, file, funcname, row, col);
+  __assert_out(l, message, file, funcname, row, col);
   return l == ERROR;
 }
 
-void _assert_excerpt(const char* file, size_t row) {
+void __assert_excerpt(const char* file, size_t row) {
   FILE *fp = fopen(file,"r");
   if (fp == NULL)
     return;
@@ -102,7 +102,7 @@ void _assert_excerpt(const char* file, size_t row) {
   fprintf(stderr, " | \n");
 }
 
-void _assert_out(
+void __assert_out(
   assert_level_t l,
   const char* message,
   const char* file,
@@ -147,5 +147,5 @@ void _assert_out(
     status,
     message
   );
-  _assert_excerpt(file, row);
+  __assert_excerpt(file, row);
 }
