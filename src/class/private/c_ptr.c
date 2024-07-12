@@ -28,7 +28,7 @@ rope_t* ptr_repr(const void* p) {
  * @return uint64_t The hash of this pointer
  */
 uint64_t ptr_hash(const void* p) {
-  return (uint64_t)p;
+  return (uint64_t)(ptrdiff_t)p;
 }
 
 /**
