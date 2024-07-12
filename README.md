@@ -151,7 +151,7 @@ void hello_world(
 }
 ```
 
-![](https://placehold.co/1/F03C15/F03C15.png) Acceptable:
+![](https://placehold.co/1/F03C15/F03C15.png) NOT Acceptable:
 ```
 void hello_world () {
   ...
@@ -192,18 +192,18 @@ else
   do_something_else();
 ```
 
-![](https://placehold.co/1/F03C15/F03C15.png) Acceptable: Scoped code must not be on the same line.
+![](https://placehold.co/1/F03C15/F03C15.png) NOT Acceptable: Scoped code must not be on the same line.
 ```
 if (is_true) do_something();
 ```
 
-![](https://placehold.co/1/F03C15/F03C15.png) Acceptable: Scoped code must be tabbed out.
+![](https://placehold.co/1/F03C15/F03C15.png) NOT Acceptable: Scoped code must be tabbed out.
 ```
 if (is_true)
 do_something();
 ```
 
-![](https://placehold.co/1/F03C15/F03C15.png) Acceptable: Unscoped code must be untabbed (`do_something_else` is not
+![](https://placehold.co/1/F03C15/F03C15.png) NOT Acceptable: Unscoped code must be untabbed (`do_something_else` is not
 evaluated within the if statment).
 ```
 if (is_true)
@@ -211,7 +211,7 @@ if (is_true)
   do_something_else();
 ```
 
-![](https://placehold.co/1/F03C15/F03C15.png) Acceptable: Bracket usage must be consistent between connected if and else
+![](https://placehold.co/1/F03C15/F03C15.png) NOT Acceptable: Bracket usage must be consistent between connected if and else
 statements.
 ```
 if (is_true)
