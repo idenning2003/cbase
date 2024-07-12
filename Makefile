@@ -76,8 +76,8 @@ $(ODIR)%.o: $(SDIR)%.c $(DEPS)
 	@if grep -qE $(TEST-REGEX) $<; then \
 		printf "# 1 \"$<\"\n" | \
 		cat - $< | \
-		cat - <(printf "\n\nint main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[]) {\n  int i = 0, err = 0;\n") | \
-		cat - <(grep -onE $(TEST-REGEX) $< | awk -F[\(\)' ':] '{print "  printf(\"%3d RUNNING: %s:%-4d \\x1B[36m" $$8 "()\\x1B[0m\\n\", ++i, __FILE__, " $$1 ");\n  err |= " $$8 "(argc, argv);"}') | \
+		cat - <(printf "\n\n#include <stdio.h>\nint main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[]) {\n  int i = 0, err = 0;\n") | \
+		cat - <(grep -onE $(TEST-REGEX) $< | awk -F[\(\)' ':] '{print "  printf(\"%3d: %s:%-4d \\x1B[36m" $$8 "()\\x1B[0m\\n\", ++i, __FILE__, " $$1 ");\n  err |= " $$8 "(argc, argv);"}') | \
 		cat - <(printf "  return err;\n}\n") | \
 		sed -e 's/__attribute__((test)) //g' | \
 		$(CC) -c -o $@ -xc - $(CFLAGS) $$(find src/ -type d | sed -e 's/^/-I/'); \

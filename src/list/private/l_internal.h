@@ -17,8 +17,8 @@
 #define _reversed (_l->reversed)
 
 typedef void list_item_t;
-struct list_node_struct;
-typedef struct list_node_struct __list_node_t;
+struct List_Node;
+typedef struct List_Node __list_node_t;
 
 uint8_t __list_node_insert(list_t*, list_item_t*);
 uint8_t __list_node_delete(list_t*, __list_node_t*);
@@ -29,13 +29,13 @@ int __list_item_cmp(
 );
 text_t* __ptr_totext(const void*);
 
-struct list_node_struct {
+struct List_Node {
   list_item_t* data;
   __list_node_t* next;
   __list_node_t* prev;
 };
 
-typedef struct {
+typedef struct List {
   size_t size;
   size_t index;
   void (*item_destroy_func)(list_item_t*);

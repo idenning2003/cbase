@@ -97,7 +97,7 @@
  * @param s Error string
  */
 #define assert_notequal(l, v1, v2, s) ({ \
-  if (v1 != v2) { \
+  if (v1 == v2) { \
     uint8_t _a_temp_ = __assert_fail( \
       l, \
       s, \
