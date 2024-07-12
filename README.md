@@ -62,9 +62,10 @@ Chertain characters are not allowed in the code such as the tab character `\t`
 or the carriage return `\r`. Any non ascii character will also not be allowed.
 
 ### 3. Column Length
-Any file within [`src/`](/src/) must follow the [80 column rule](80-column-rule)
-specifying that every line must have, at most, 80 characters before a newline.
-All files outside of this scope should still be incentivized to conform to this
+Any file within [`src/`](/src/) must follow the
+[80 column rule](https://www.emacswiki.org/emacs/EightyColumnRule) specifying
+that every line must have, at most, 80 characters before a newline. All files
+outside of this scope should still be incentivized to conform to this
 rule.
 
 ### 4. Newline EOF
@@ -72,8 +73,8 @@ Before the end of any file, there must be at least one newline character `\n`.
 
 ### 5. Trailing Whitespace
 Any trailing whitespace, meaning space characters ' ' before a newline, is
-strictly prohibited. I ([idenning2003](idenning2003)) have a personal vendetta
-against trailing whitespace.
+strictly prohibited. I ([idenning2003](https://github.com/idenning2003)) have a
+personal vendetta against trailing whitespace.
 
 ### 6. Constant Qualifier
 Use it whenever it is possible in function parameters and whenever it make sense
@@ -127,17 +128,18 @@ Example from [`src/list/public/list.h`](/src/list/public/list.h)
 Opening brackets must be placed on the same line as the begining of the scope
 definition. The only exeption to this rule is when there is too much logic in
 the parenthesis to comply with this rule and the
-[80 column rule](80-column-rule). In those instances, the logic within the
-parenthesis needs to be seperated to different lines.
+[80 column rule](https://www.emacswiki.org/emacs/EightyColumnRule). In those
+instances, the logic within the parenthesis needs to be seperated to different
+lines.
 
-Acceptable:
+![](https://placehold.co/1/7CFC00/7CFC00.png) Acceptable:
 ```
 void hello_world() {
   ...
 }
 ```
 
-Acceptable:
+![](https://placehold.co/1/7CFC00/7CFC00.png) Acceptable:
 ```
 void hello_world(
   unint8_t param1,
@@ -149,7 +151,7 @@ void hello_world(
 }
 ```
 
-NOT Acceptable:
+![](https://placehold.co/1/F03C15/F03C15.png) Acceptable:
 ```
 void hello_world () {
   ...
@@ -160,20 +162,20 @@ Scoped statments such as if, else, while, etc. can always be scoped with
 brackets, however, in some instances scoping to the immediate next line without
 brackets is acceptable.
 
-Acceptable:
+![](https://placehold.co/1/7CFC00/7CFC00.png) Acceptable:
 ```
 if (is_true) {
   do_thing();
 }
 ```
 
-Acceptable:
+![](https://placehold.co/1/7CFC00/7CFC00.png) Acceptable:
 ```
 if (is_true)
   do_thing();
 ```
 
-Acceptable:
+![](https://placehold.co/1/7CFC00/7CFC00.png) Acceptable:
 ```
 if (is_true) {
   do_thing();
@@ -182,7 +184,7 @@ if (is_true) {
 }
 ```
 
-Acceptable:
+![](https://placehold.co/1/7CFC00/7CFC00.png) Acceptable:
 ```
 if (is_true)
   do_thing();
@@ -190,18 +192,18 @@ else
   do_something_else();
 ```
 
-NOT Acceptable: Scoped code must not be on the same line.
+![](https://placehold.co/1/F03C15/F03C15.png) Acceptable: Scoped code must not be on the same line.
 ```
 if (is_true) do_something();
 ```
 
-NOT Acceptable: Scoped code must be tabbed out.
+![](https://placehold.co/1/F03C15/F03C15.png) Acceptable: Scoped code must be tabbed out.
 ```
 if (is_true)
 do_something();
 ```
 
-NOT Acceptable: Unscoped code must be untabbed (`do_something_else` is not
+![](https://placehold.co/1/F03C15/F03C15.png) Acceptable: Unscoped code must be untabbed (`do_something_else` is not
 evaluated within the if statment).
 ```
 if (is_true)
@@ -209,7 +211,7 @@ if (is_true)
   do_something_else();
 ```
 
-NOT Acceptable: Bracket usage must be consistent between connected if and else
+![](https://placehold.co/1/F03C15/F03C15.png) Acceptable: Bracket usage must be consistent between connected if and else
 statements.
 ```
 if (is_true)
@@ -219,6 +221,3 @@ else {
   do_something_new();
 }
 ```
-
-[idenning2003]: https://github.com/idenning2003
-[80-column-rule]: https://www.emacswiki.org/emacs/EightyColumnRule
