@@ -144,7 +144,8 @@ uint8_t text_delete(text_t* t, size_t index) {
     return ERANGE;
   if (index == 0)
     err = text_front(t);
-  else err = text_goto(t, index - 1);
+  else
+    err = text_goto(t, index - 1);
   if (err)
     return err;
   text_node_internal_t* n = _iter->next;
@@ -188,7 +189,8 @@ int8_t text_cmp_string(text_t* t, char* s) {
     if (!*s) {
       if (!text_has_next(t))
         return 0;
-      else return 1;
+      else
+        return 1;
     }
     if (!text_next(t, &c) && *s != c)
       return c - *s;
