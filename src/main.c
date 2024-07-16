@@ -14,7 +14,10 @@ int main(int argc, char* argv[]) {
   }
   printf("\n");
 
-  printf("%d\n", strcmp("A", "B"));
+
+  for (int i = 0; i < 2; i++) {
+    printf("%d\n", strcmp("3", "1"));
+  }
 
   return 0;
 }

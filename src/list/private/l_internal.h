@@ -5,7 +5,7 @@
 
 #include "text.h"
 
-#define _l ((list_internal_t*)l)
+#define _l ((__list_t*)l)
 #define _head (_l->head)
 #define _tail (_l->tail)
 #define _iter (_l->iter)
@@ -17,11 +17,11 @@
 #define _reversed (_l->reversed)
 
 typedef void list_item_t;
-struct list_node_struct;
-typedef struct list_node_struct list_node_internal_t;
+struct List_Node;
+typedef struct List_Node __list_node_t;
 
 uint8_t __list_node_insert(list_t*, list_item_t*);
-uint8_t __list_node_delete(list_t*, list_node_internal_t*);
+uint8_t __list_node_delete(list_t*, __list_node_t*);
 int __list_item_cmp(
   const list_t*,
   const list_item_t*,
@@ -29,22 +29,22 @@ int __list_item_cmp(
 );
 text_t* __ptr_totext(const void*);
 
-struct list_node_struct {
+struct List_Node {
   list_item_t* data;
-  list_node_internal_t* next;
-  list_node_internal_t* prev;
+  __list_node_t* next;
+  __list_node_t* prev;
 };
 
-typedef struct {
+typedef struct List {
   size_t size;
   size_t index;
   void (*item_destroy_func)(list_item_t*);
   int (*item_cmp_func)(const list_item_t*, const list_item_t*);
   text_t* (*item_totext_func)(const list_item_t*);
-  list_node_internal_t head;
-  list_node_internal_t tail;
-  list_node_internal_t* iter;
+  __list_node_t head;
+  __list_node_t tail;
+  __list_node_t* iter;
   bool reversed;
-} list_internal_t;
+} __list_t;
 
 #endif

@@ -6,7 +6,7 @@
 #include "text.h"
 #include "t_internal.h"
 
-#define _t ((text_internal_t*)t)
+#define _t ((__text_t*)t)
 #define _front (_t->front)
 #define _back (_t->back)
 #define _iter (_t->iter)
@@ -15,7 +15,7 @@
 
 text_t* text_create() {
   text_t* t = (text_t*)malloc(sizeof(*_t));
-  _front = (text_node_internal_t*)malloc(sizeof(*_front));
+  _front = (__text_node_t*)malloc(sizeof(*_front));
   if (_t == NULL || _front == NULL)
     return NULL;
   _back = _front;
@@ -98,7 +98,7 @@ bool text_has_next(text_t* t) {
 
 uint8_t text_append(text_t* t, char c) {
   __text_back(t);
-  text_node_internal_t* n = (text_node_internal_t*)malloc(sizeof(*n));
+  __text_node_t* n = (__text_node_t*)malloc(sizeof(*n));
   if (n == NULL)
     return ENOMEM;
   n->data = c;
@@ -148,7 +148,7 @@ uint8_t text_delete(text_t* t, size_t index) {
     err = text_goto(t, index - 1);
   if (err)
     return err;
-  text_node_internal_t* n = _iter->next;
+  __text_node_t* n = _iter->next;
   _iter->next = n->next;
   if (n == _back)
     _back = _iter;

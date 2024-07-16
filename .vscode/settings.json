@@ -14,7 +14,10 @@
     "stdio.h": "c",
     "a_internal.h": "c",
     "features.h": "c",
-    "string.h": "c"
+    "string.h": "c",
+    "stddef.h": "c",
+    "unistd.h": "c",
+    "class.h": "c"
   },
   "C_Cpp.codeAnalysis.clangTidy.enabled": true,
   "C_Cpp.codeAnalysis.runAutomatically": true,
