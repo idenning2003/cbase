@@ -11,7 +11,8 @@ uint8_t global_func_check(char* filename) {
   size_t len = strlen(filename);
   char* ext = filename + len;
   while (*ext != '.' && ext != filename) ext--;
-  if (strcmp(ext, ".c")) return EXIT_SUCCESS;
+  if (strcmp(ext, ".c"))
+    return EXIT_SUCCESS;
 
   FILE* fp = fopen(filename, "r");
   assert_notnull(ERROR, fp, "Could not open file.");

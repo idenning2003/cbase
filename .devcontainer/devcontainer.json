@@ -27,6 +27,7 @@
         "github.vscode-pull-request-github",
         "github.vscode-github-actions",
         "shardulm94.trailing-spaces",
+        "cschlosser.doxdocgen",
         "gruntfuggly.todo-tree"
       ]
     }

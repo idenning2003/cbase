@@ -24,7 +24,8 @@ uint8_t __assert_true(
   size_t row,
   size_t col
 ) {
-  if (v == true) return EXIT_SUCCESS;
+  if (v == true)
+    return EXIT_SUCCESS;
   char s[] = "Expected " GRN "true" RST ", but found " RED "false" RST ". ";
   char* full_message = (char*)malloc(
     sizeof(*full_message) * (
@@ -47,7 +48,8 @@ uint8_t __assert_false(
   size_t row,
   size_t col
 ) {
-  if (v == false) return EXIT_SUCCESS;
+  if (v == false)
+    return EXIT_SUCCESS;
   char s[] = "Expected " GRN "false" RST ", but found " RED "true" RST ". ";
   char* full_message = (char*)malloc(
     sizeof(*full_message) * (
@@ -126,26 +128,28 @@ void __assert_out(
       strcpy(color, BLU);
       break;
   }
-  if (funcname) fprintf(
-    stderr,
-    "%s:%zu:%zu %s%s: " RST "in " CYN "%s()" RST ". %s\n",
-    file,
-    row,
-    col,
-    color,
-    status,
-    funcname,
-    message
-  );
-  else fprintf(
-    stderr,
-    "%s:%zu:%zu %s%s: " RST "%s\n",
-    file,
-    row,
-    col,
-    color,
-    status,
-    message
-  );
+  if (funcname)
+    fprintf(
+      stderr,
+      "%s:%zu:%zu %s%s: " RST "in " CYN "%s()" RST ". %s\n",
+      file,
+      row,
+      col,
+      color,
+      status,
+      funcname,
+      message
+    );
+  else
+    fprintf(
+      stderr,
+      "%s:%zu:%zu %s%s: " RST "%s\n",
+      file,
+      row,
+      col,
+      color,
+      status,
+      message
+    );
   __assert_excerpt(file, row);
 }
