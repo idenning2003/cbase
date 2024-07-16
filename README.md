@@ -1,5 +1,4 @@
 # cbase - Library of C data structures and tests
-
 This project contains a collection of useful data structures that are set up in
 an almost object-oriented manner.
 
@@ -7,16 +6,40 @@ I built this project to set up an environment for future C projects and provide
 a long-term project that I could work on indefinitely, as more can always be
 improved.
 
-## Layout
+## Usage
+The project must first be built with `make` before it can be ran.
 
+### Basic Usage
+```
+make        # Build main and test executables
+./bin/test  # Run all the tests
+./bin/main  # Run the main program
+```
+
+### Make Targets
+ - `make all` (default) targets build and test
+ - `make build` make the main executable in `bin/main`
+ - `make test` make the test executable in `bin/test` and each test file's
+    executable inside `bin/tests/`
+ - `make clean` removes any files/folders produced from make targets
+ - `make tar` create `cbase.tar.gz` with any project files
+
+### Executables
+All executables will be located inside `bin/` with the folder structure of:
+ - `bin/`
+   - `tests/` All the test executables for each test file
+   - `main` The main program executable
+   - `test` The test program to run each test file executable
+
+## Layout
 The layout of this is simple: inside [`src/`](/src/), there are folders for each
 data structure, which are laid out as follows:
 
- - `<structure>/`
-   - `public/`
-   - `private/`
-   - `test/`
-   - `README.md` (optional)
+ - `<structure>/`
+   - `public/`
+   - `private/`
+   - `test/`
+   - `README.md` (optional)
 
 The only files that are allowed to break these rules are
 [`src/main.c`](/src/main.c) and [`src/test.c`](/src/test.c).
