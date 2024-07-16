@@ -9,15 +9,16 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
+#include <stdbool.h>
+
 #include "class.h"
 
 typedef void object_t;
 
 extern const class_t* object_class;
 
-object_t* object_create(const class_t*, void*);
+object_t* object_create(const class_t*, void*, bool);
 void object_destroy(object_t*);
-void object_detatch(object_t*);
 const class_t* object_type(const object_t*);
 const char* object_identifier(const object_t*);
 rope_t* object_repr(const object_t*);

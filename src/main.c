@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
   }
   printf("\n");
 
-  object_t* o = object_create(ptr_class, NULL);
+  object_t* o = object_create(ptr_class, NULL, false);
   assert_notnull(ERROR, o, "Object allocation failure.");
   object_destroy(o);
 

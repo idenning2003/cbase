@@ -8,31 +8,30 @@
  *
  * @param type The class of this object
  * @param data Refrence to this ojects data
+ * @param connect_destroy when the object is destroyed, should the data be
+ * destroyed too?
  * @return object_t* The object
  */
-object_t* object_create(const class_t* type, void* data) {
+object_t* object_create(
+  const class_t* type,
+  void* data,
+  bool connect_destroy
+) {
   object_t* self = (object_t*)malloc(sizeof(*_self));
   _type = type;
   _data = data;
+  _connect_destroy = connect_destroy;
   return (object_t*)_self;
 }
 
 /**
- * @brief Destroy this object and it's data
+ * @brief Destroy this object
  *
  * @param self The object
  */
 void object_destroy(object_t* self) {
-  class_destroy(_type, _data);
-  free(_self);
-}
-
-/**
- * @brief Destroy the object, but leave the data
- *
- * @param self The object
- */
-void object_detatch(object_t* self) {
+  if (_connect_destroy)
+    class_destroy(_type, _data);
   free(_self);
 }
 
