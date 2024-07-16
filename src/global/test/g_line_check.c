@@ -46,7 +46,7 @@ uint8_t global_line_check(char* filename) {
         }
         free(line);
       }
-      if (col > 80)
+      if (col > 81) // 81 since newline character is included in count
         err |= __assert_fail(
           WARNING,
           "Line too long.",

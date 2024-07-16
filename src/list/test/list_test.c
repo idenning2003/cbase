@@ -1,8 +1,6 @@
-#include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
 #include <errno.h>
-#include <unistd.h>
 
 #include "global.h"
 #include "assert.h"
@@ -518,15 +516,15 @@ __attribute__((test)) uint8_t list_remove_found_ordered_test() {
   );
 
   assert_false(ERROR, list_destroy(l), "List destroy failure.");
-  return EXIT_SUCCESS;
+  return EXIT_SUCCESS; // TODO
 }
 
 __attribute__((test)) uint8_t list_remove_unfound_unordered_test() {
-  return EXIT_SUCCESS;
+  return EXIT_SUCCESS; // TODO
 }
 
 __attribute__((test)) uint8_t list_remove_unfound_ordered_test() {
-  return EXIT_SUCCESS;
+  return EXIT_SUCCESS; // TODO
 }
 
 __attribute__((test)) uint8_t list_purge_uordered_test() {
