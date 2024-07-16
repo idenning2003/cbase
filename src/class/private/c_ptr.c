@@ -44,7 +44,7 @@ int ptr_cmp(const void* p1, const void* p2) {
 
 /// @brief Pointer class
 const class_t* ptr_class = &(class_t){
-  .name = "ptr",
+  .identifier = "ptr",
   .destroy = NULL,
   .repr = ptr_repr,
   .hash = ptr_hash,

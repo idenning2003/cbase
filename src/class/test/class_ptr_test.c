@@ -6,11 +6,11 @@
 #include "assert.h"
 #include "class.h"
 
-__attribute__((test)) uint8_t class_ptr_name_test() {
+__attribute__((test)) uint8_t class_ptr_identifier_test() {
   assert_true(
     ERROR,
-    !strcmp(class_name(ptr_class), "ptr"),
-    "Pointer class name error."
+    !strcmp(class_identifier(ptr_class), "ptr"),
+    "Pointer class identifier error."
   );
   return EXIT_SUCCESS;
 }

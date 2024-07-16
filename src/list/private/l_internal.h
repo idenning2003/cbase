@@ -5,16 +5,16 @@
 
 #include "text.h"
 
-#define _l ((__list_t*)l)
-#define _head (_l->head)
-#define _tail (_l->tail)
-#define _iter (_l->iter)
-#define _index (_l->index)
-#define _size (_l->size)
-#define _item_destroy_func (_l->item_destroy_func)
-#define _item_cmp_func (_l->item_cmp_func)
-#define _item_totext_func (_l->item_totext_func)
-#define _reversed (_l->reversed)
+#define _self ((__list_t*)self)
+#define _head (_self->head)
+#define _tail (_self->tail)
+#define _iter (_self->iter)
+#define _index (_self->index)
+#define _size (_self->size)
+#define _item_destroy_func (_self->item_destroy_func)
+#define _item_cmp_func (_self->item_cmp_func)
+#define _item_totext_func (_self->item_totext_func)
+#define _reversed (_self->reversed)
 
 typedef void list_item_t;
 struct List_Node;

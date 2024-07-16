@@ -3,13 +3,13 @@
 #include "class.h"
 
 /**
- * @brief Returns the name of specific class
+ * @brief Returns the identifier of specific class
  *
  * @param c The class
- * @return const char* The name of the class
+ * @return const char* The identifier of the class
  */
-const char* class_name(const class_t* c) {
-  return c->name;
+const char* class_identifier(const class_t* c) {
+  return c->identifier;
 }
 
 /**

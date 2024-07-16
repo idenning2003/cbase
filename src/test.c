@@ -46,7 +46,10 @@ int main(UNUSED int argc, UNUSED char* argv[]) {
                         "'9c55f619dba0eb1c0ccb6cc790b842dc' "
                     "]";
   char cmd[] = "timeout 5 "
-               "valgrind -q --leak-check=full --error-exitcode=117 ";
+               "valgrind "
+                 "-q "
+                 "--leak-check=full "
+                 "--track-origins=yes --error-exitcode=117 ";
   if (!WEXITSTATUS(system(hash_cmd)))
     cmd[10] = '\0';
   int cmd_len = strlen(cmd);

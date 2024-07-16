@@ -26,7 +26,7 @@ void rand_int_arr(int* arr, size_t len) {
 __attribute__((test)) uint8_t list_create_destroy_test() {
   list_t* l = list_create(NULL, NULL, NULL);
   assert_notnull(ERROR, l, "List allocation failure.");
-  assert_false(ERROR, list_destroy(l), "List destroy failure.");
+  list_destroy(l);
   return EXIT_SUCCESS;
 }
 
@@ -48,7 +48,7 @@ __attribute__((test)) uint8_t list_size_test() {
   }
   assert_false(ERROR, list_clear(l), "List clear failure.");
   assert_equal(ERROR, 0, list_size(l), "Size clear failure.");
-  assert_false(ERROR, list_destroy(l), "List destroy failure.");
+  list_destroy(l);
   return EXIT_SUCCESS;
 }
 
@@ -73,7 +73,7 @@ __attribute__((test)) uint8_t list_iter_forward_test() {
   }
   assert_true(ERROR, list_next(l, &item), "List next failure.");
 
-  assert_false(ERROR, list_destroy(l), "List destroy failure.");
+  list_destroy(l);
   return EXIT_SUCCESS;
 }
 
@@ -97,7 +97,7 @@ __attribute__((test)) uint8_t list_iter_backward_test() {
     assert_equal(ERROR, item, (list_item_t*)i, "List item failure.");
   }
 
-  assert_false(ERROR, list_destroy(l), "List destroy failure.");
+  list_destroy(l);
   return EXIT_SUCCESS;
 }
 
@@ -137,7 +137,7 @@ __attribute__((test)) uint8_t list_iter_goto_test() {
     assert_equal(ERROR, item, (list_item_t*)rnd[i] + 1, "List item failure.");
   }
 
-  assert_false(ERROR, list_destroy(l), "List destroy failure.");
+  list_destroy(l);
   return EXIT_SUCCESS;
 }
 
@@ -169,7 +169,7 @@ __attribute__((test)) uint8_t list_iter_at_test() {
     );
   }
 
-  assert_false(ERROR, list_destroy(l), "List destroy failure.");
+  list_destroy(l);
   return EXIT_SUCCESS;
 }
 
@@ -191,7 +191,7 @@ __attribute__((test)) uint8_t list_head_test() {
   assert_false(ERROR, list_has_prev(l), "List has previous failure.");
   assert_true(ERROR, list_prev(l, &item), "List previous failure.");
 
-  assert_false(ERROR, list_destroy(l), "List destroy failure.");
+  list_destroy(l);
   return EXIT_SUCCESS;
 }
 
@@ -213,7 +213,7 @@ __attribute__((test)) uint8_t list_tail_test() {
   assert_false(ERROR, list_has_next(l), "List has next failure.");
   assert_true(ERROR, list_next(l, &item), "List next failure.");
 
-  assert_false(ERROR, list_destroy(l), "List destroy failure.");
+  list_destroy(l);
   return EXIT_SUCCESS;
 }
 
@@ -245,7 +245,7 @@ __attribute__((test)) uint8_t list_insert_unordered_test() {
     assert_equal(ERROR, item, (list_item_t*)i, "List at failure.");
   }
 
-  assert_false(ERROR, list_destroy(l), "List destroy failure.");
+  list_destroy(l);
   return EXIT_SUCCESS;
 }
 
@@ -289,7 +289,7 @@ __attribute__((test)) uint8_t list_insert_ordered_test() {
   }
   assert_true(ERROR, list_next(l, &item), "List next failure.");
 
-  assert_false(ERROR, list_destroy(l), "List destroy failure.");
+  list_destroy(l);
   return EXIT_SUCCESS;
 }
 
@@ -313,7 +313,7 @@ __attribute__((test)) uint8_t list_append_unordered_test() {
     assert_true(ERROR, list_next(l, &item), "List next failure.");
   }
 
-  assert_false(ERROR, list_destroy(l), "List destroy failure.");
+  list_destroy(l);
   return EXIT_SUCCESS;
 }
 
@@ -332,7 +332,7 @@ __attribute__((test)) uint8_t list_append_ordered_test() {
     "List append failure."
   );
 
-  assert_false(ERROR, list_destroy(l), "List destroy failure.");
+  list_destroy(l);
   return EXIT_SUCCESS;
 }
 
@@ -351,7 +351,7 @@ __attribute__((test)) uint8_t list_place_ordered_test() {
     "List place failure."
   );
 
-  assert_false(ERROR, list_destroy(l), "List destroy failure.");
+  list_destroy(l);
   return EXIT_SUCCESS;
 }
 
@@ -388,7 +388,7 @@ __attribute__((test)) uint8_t list_place_unordered_test() {
       "List place failure."
     );
 
-  assert_false(ERROR, list_destroy(l), "List destroy failure.");
+  list_destroy(l);
   return EXIT_SUCCESS;
 }
 
@@ -412,7 +412,7 @@ __attribute__((test)) uint8_t list_clear_test() {
   assert_false(ERROR, list_head(l), "List head failure.");
   assert_true(ERROR, list_next(l, &item), "List next failure.");
 
-  assert_false(ERROR, list_destroy(l), "List destroy failure.");
+  list_destroy(l);
   return EXIT_SUCCESS;
 }
 
@@ -436,7 +436,7 @@ __attribute__((test)) uint8_t list_delete_test() {
     assert_equal(ERROR, item, (list_item_t*)(2 * i + 1), "List item failure.");
   }
 
-  assert_false(ERROR, list_destroy(l), "List destroy failure.");
+  list_destroy(l);
   return EXIT_SUCCESS;
 }
 
@@ -468,7 +468,7 @@ __attribute__((test)) uint8_t list_remove_found_unordered_test() {
   assert_false(ERROR, list_at(l, &item, list_size(l) - 1), "List at failure.");
   assert_equal(ERROR, item, (list_item_t*)(len / 2), "List item failure.");
 
-  assert_false(ERROR, list_destroy(l), "List destroy failure.");
+  list_destroy(l);
   return EXIT_SUCCESS;
 }
 
@@ -515,7 +515,7 @@ __attribute__((test)) uint8_t list_remove_found_ordered_test() {
     "List item failure."
   );
 
-  assert_false(ERROR, list_destroy(l), "List destroy failure.");
+  list_destroy(l);
   return EXIT_SUCCESS; // TODO
 }
 
@@ -557,7 +557,7 @@ __attribute__((test)) uint8_t list_purge_uordered_test() {
   assert_equal(ERROR, item, (list_item_t*)(len - 1), "List item failure.");
   assert_false(ERROR, list_delete(l, 0), "List at failure.");
 
-  assert_false(ERROR, list_destroy(l), "List destroy failure.");
+  list_destroy(l);
   return EXIT_SUCCESS;
 }
 

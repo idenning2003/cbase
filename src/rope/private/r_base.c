@@ -12,8 +12,11 @@ rope_t* rope_create_with(const char* str) {
 }
 
 char* rope_str(rope_t* r) {
-  return (char*)r;
+  char* str = (char*)malloc(sizeof(*str) * (strlen(r) + 1));
+  strcpy(str, r);
+  return str;
 }
 
-void rope_destroy(rope_t*) {
+void rope_destroy(rope_t* r) {
+  free(r);
 }
