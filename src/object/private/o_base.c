@@ -92,3 +92,12 @@ int object_cmp(const object_t* self, const object_t* other) {
     return type_cmp(ptr_type, _data, ((__object_t*)other)->data);
   return type_cmp(_type, _data, ((__object_t*)other)->data);
 }
+
+/**
+ * @brief Prints this object
+ *
+ * @param self The object
+ */
+void object_print(const object_t* self) {
+  type_print(_type, _data);
+}

@@ -24,5 +24,6 @@ const char* object_identifier(const object_t*);
 rope_t* object_repr(const object_t*);
 uint64_t object_hash(const object_t*);
 int object_cmp(const object_t* self, const object_t* other);
+void object_print(const object_t*);
 
 #endif
