@@ -13,9 +13,7 @@
 /**
  * @brief Allocates and sets up list
  *
- * @param item_destroy_func Function to call when destroying item
- * @param item_cmp_func Function to compare items of the list
- * @param item_totext_func Function to convert item to string
+ * @param type The type of structures contained in the list
  * @param connect_destroy when the object is destroyed, should the data be
  * @return list_t* The set up list.
  *
@@ -363,8 +361,6 @@ uint8_t list_purge(list_t* self, const list_item_t* item) {
 /**
  * @brief Creates a copy of this list
  *
- * TODO copy the reversed and ordered statuses.
- *
  * @param self The list
  * @return list_t* The copy
  */
@@ -377,6 +373,10 @@ list_t* list_copy(const list_t* self) {
     if (list_append(other, n->data))
       return NULL;
   }
+  if (_reversed)
+    list_reverse(other);
+  if (_ordered)
+    list_order(other);
   return other;
 }
 
@@ -487,7 +487,7 @@ bool list_contains(const list_t* self, const list_item_t* item) {
  *    =0: self = other
  */
 int list_cmp(UNUSED const list_t* self, UNUSED const list_t* other) {
-  return ENOSYS;
+  return ENOSYS; // TODO Implement
 }
 
 /**
@@ -537,6 +537,11 @@ uint8_t __list_node_delete(list_t* self, __list_node_t* n) {
   return EXIT_SUCCESS;
 }
 
+/**
+ * @brief Prints the list to stdout
+ *
+ * @param self The list
+ */
 void list_print(const list_t* self) {
   __list_node_t* n = &_head;
   printf("[");
