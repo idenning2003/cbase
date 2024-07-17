@@ -23,8 +23,18 @@ jobs:
 
       - name: Run tests
         run: |
-          docker-compose -f .devcontainer/docker-compose.yml exec -T devcontainer bash -c "cd /workspaces/cbase && make test && ./bin/test"
+          docker-compose -f .devcontainer/docker-compose.yml exec -T devcontainer bash -c "cd /workspaces/cbase && make coverage"
+
+      - name: Download coverage
+        run: |
+          docker-compose -f .devcontainer/docker-compose.yml cp -T devcontainer /workspaces/cbase/coverage .
 
       - name: Tear down Docker Compose
         run: |
           docker-compose -f .devcontainer/docker-compose.yml down
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage
+          path: coverage

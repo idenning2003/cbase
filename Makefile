@@ -1,12 +1,13 @@
 SHELL := /bin/bash
 CC := gcc
-CFLAGS := -Wall -Wextra -Werror -gdwarf-4 -g3
+CFLAGS := -Wall -Wextra -Werror -gdwarf-4 -g3 --coverage
 LIBS := -lm
 
 SDIR := src/
 ODIR := obj/
 EDIR := bin/
 TDIR := tests/
+CDIR := coverage/
 EXEC := main
 TEST := test
 TAR := cbase.tar.gz
@@ -30,8 +31,16 @@ test: $(EDIR)$(TEST) $(TEST-EXEC)
 
 tar: $(TAR)
 
+coverage: test
+	@$(EDIR)$(TEST)
+	@if [ ! -d "$(CDIR)" ]; then \
+		mkdir -p $(CDIR); \
+		printf "make: \033[1;34m$(CDIR)\033[0m\n"; \
+	fi
+	@gcovr --root . --html --html-details --output coverage/coverage.html
+
 clean:
-	@rm -rf $(ODIR) $(EDIR)
+	@rm -rf $(ODIR) $(EDIR) $(CDIR)
 	@rm -f $(TAR)
 
 $(EDIR)$(EXEC): $(filter-out %/test.o,$(BUILD-OBJS))
@@ -89,6 +98,6 @@ $(TAR): $(shell find . -type f ! -path "./.git/*" ! -name "$(TAR)" ! -path "./$(
 	@printf "make: \033[1;31m$@\033[0m\n"
 	@tar -czvf $(TAR) --transform 's,^,cbase/,' $(shell find . -type f ! -path "./.git/*" ! -name "$(TAR)" ! -path "./$(ODIR)/*" ! -path "./$(EDIR)/*") > /dev/null
 
-.PHONY: all build test tar clean
+.PHONY: all build test tar clean coverage
 
 .PRECIOUS: $(TEST-OBJS) $(BUILD-OBJS)
