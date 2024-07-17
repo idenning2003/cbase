@@ -1,9 +1,10 @@
-#include <unistd.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>
 #include <dirent.h>
 #include <stdlib.h>
 #include <libgen.h>
+#include <unistd.h>
 
 #include "global.h"
 #include "assert.h"
@@ -67,7 +68,16 @@ int main(UNUSED int argc, UNUSED char* argv[]) {
         printf("-");
       printf("\n");
       strcpy(full + cmd_len, s);
-      status = WEXITSTATUS(system(full));
+      FILE *fp = popen(full, "r");
+      if (fp == NULL) {
+        fprintf(stderr, "Error: Alias connection failure.");
+        return 1;
+      }
+      int c;
+      while ((c = fgetc(fp)) != EOF) {
+        putc(c, stdout);
+      }
+      status = WEXITSTATUS(pclose(fp));
       if (status == 124)
         printf(RED "TIMEOUT ERROR\n" RST);
       else if (status == 117)
