@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stddef.h>
 
-#include "class.h"
+#include "type.h"
 
 /**
  * @brief Return a representation of this pointer in a rope_t
@@ -43,8 +43,8 @@ int ptr_cmp(const void* p1, const void* p2) {
   return p1 - p2;
 }
 
-/// @brief Pointer class
-const class_t* ptr_class = &(class_t){
+/// @brief Pointer type
+const type_t* ptr_type = &(type_t){
   .identifier = "ptr",
   .destroy = NULL,
   .repr = ptr_repr,

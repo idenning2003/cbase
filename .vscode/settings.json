@@ -17,7 +17,6 @@
     "string.h": "c",
     "stddef.h": "c",
     "unistd.h": "c",
-    "class.h": "c",
     "stdint.h": "c",
     "rope.h": "c",
     "l_internal.h": "c",

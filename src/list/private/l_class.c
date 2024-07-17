@@ -4,16 +4,16 @@
 
 #include "list.h"
 #include "l_internal.h"
-#include "class.h"
+#include "type.h"
 
 // TODO Use rope concat instead
 rope_t* list_repr(const list_t* self) {
-  list_t* item_reprs = list_create(str_class, true);
+  list_t* item_reprs = list_create(str_type, true);
   char* item_repr;
   __list_node_t* n = &_head;
   size_t len = 0;
   while ((n = n->next) != &_tail) {
-    rope_t* rope = class_repr(_type, n->data);
+    rope_t* rope = type_repr(_type, n->data);
     item_repr = rope_str(rope);
     list_append(item_reprs, item_repr);
     len += strlen(item_repr) + 2;
@@ -46,13 +46,13 @@ uint64_t list_hash(const list_t* self) {
   uint64_t hash = 5381;
   __list_node_t* n = &_head;
   while ((n = n->next) != &_tail)
-    hash = ((hash << 5) + hash) + class_hash(_type, n->data);
+    hash = ((hash << 5) + hash) + type_hash(_type, n->data);
 
   return hash;
 }
 
-/// @brief List class
-const class_t* list_class = &(class_t){
+/// @brief List type
+const type_t* list_type = &(type_t){
   .identifier = "list",
   .destroy = list_destroy,
   .repr = list_repr,

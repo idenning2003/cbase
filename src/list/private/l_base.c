@@ -8,7 +8,7 @@
 #include "global.h"
 #include "list.h"
 #include "l_internal.h"
-#include "class.h"
+#include "type.h"
 
 /**
  * @brief Allocates and sets up list
@@ -19,13 +19,13 @@
  *
  * @warning If returns NULL, allocation failed
  */
-list_t* list_create(const class_t* type, bool connect_destroy) {
+list_t* list_create(const type_t* type, bool connect_destroy) {
   list_t* self = (list_t*)malloc(sizeof(*_self));
   if (_self == NULL)
     return NULL;
   _type = type;
   if (_type == NULL)
-    _type = ptr_class;
+    _type = ptr_type;
   _head.next = &_tail;
   _head.prev = NULL;
   _head.data = NULL;
@@ -264,8 +264,8 @@ uint8_t list_insert(list_t* self, list_item_t* item) {
     if ((err = list_next(self, &item2)))
       return err;
     while (
-      (!_reversed && class_cmp(_type, item, item2) > 0) ||
-      (_reversed && class_cmp(_type, item, item2) < 0)
+      (!_reversed && type_cmp(_type, item, item2) > 0) ||
+      (_reversed && type_cmp(_type, item, item2) < 0)
     ) {
       if (list_next(self, &item2)) {
         list_tail(self);
@@ -317,7 +317,7 @@ uint8_t list_remove(list_t* self, const list_item_t* item) {
   if ((err = list_head(self)))
     return err;
   while (!list_next(self, &item2)) {
-    if (class_cmp(_type, item, item2)) {
+    if (type_cmp(_type, item, item2)) {
       if ((err = __list_node_delete(self, _iter)))
         return err;
       return EXIT_SUCCESS;
@@ -343,7 +343,7 @@ uint8_t list_purge(list_t* self, const list_item_t* item) {
   if ((err = list_next(self, &item2)))
     return err;
   while (_iter != &_tail) {
-    if (!class_cmp(_type, item, item2)) {
+    if (!type_cmp(_type, item, item2)) {
       found = true;
       if ((err = __list_node_delete(self, _iter)))
         return err;
@@ -426,8 +426,8 @@ uint8_t list_order(list_t* self) {
   __list_node_t* n = &_head;
   while ((n = n->next) != &_tail && n->next != &_tail) {
     if (
-      (_reversed && class_cmp(_type, n->data, n->next->data) < 0) ||
-      (!_reversed && class_cmp(_type, n->data, n->next->data) > 0)
+      (_reversed && type_cmp(_type, n->data, n->next->data) < 0) ||
+      (!_reversed && type_cmp(_type, n->data, n->next->data) > 0)
     ) {
       void* tmp = n->data;
       n->data = n->next->data;
@@ -455,7 +455,7 @@ uint8_t list_indexof(
   __list_node_t* n = &_head;
   size_t index2 = 0;
   while ((n = n->next) != &_tail) {
-    if (class_cmp(_type, item, n->data)) {
+    if (type_cmp(_type, item, n->data)) {
       *index = index2;
       return EXIT_SUCCESS;
     }
@@ -532,7 +532,7 @@ uint8_t __list_node_delete(list_t* self, __list_node_t* n) {
   _size--;
   _iter = n->next;
   if (_connect_destroy)
-    class_destroy(_type, n->data);
+    type_destroy(_type, n->data);
   free(n);
   return EXIT_SUCCESS;
 }
@@ -546,7 +546,7 @@ void list_print(const list_t* self) {
   __list_node_t* n = &_head;
   printf("[");
   while ((n = n->next) != &_tail) {
-    rope_t* rope = class_repr(_type, n->data);
+    rope_t* rope = type_repr(_type, n->data);
     char* repr = rope_str(rope);
     printf("%s", repr);
     free(repr);

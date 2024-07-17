@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stddef.h>
 
-#include "class.h"
+#include "type.h"
 
 /**
  * @brief Return a representation of this string in a rope_t
@@ -34,8 +34,8 @@ uint64_t str_hash(const void* s) {
   return hash;
 }
 
-/// @brief String class
-const class_t* str_class = &(class_t){
+/// @brief String type
+const type_t* str_type = &(type_t){
   .identifier = "str",
   .destroy = free,
   .repr = str_repr,

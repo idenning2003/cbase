@@ -33,7 +33,7 @@ typedef struct List {
   __list_node_t head;
   __list_node_t tail;
   __list_node_t* iter;
-  const class_t* type;
+  const type_t* type;
   bool ordered;
   bool reversed;
   bool connect_destroy;

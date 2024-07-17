@@ -25,14 +25,14 @@ void rand_int_arr(int* arr, size_t len) {
 }
 
 __attribute__((test)) uint8_t list_create_destroy_test() {
-  list_t* l = list_create(ptr_class, true);
+  list_t* l = list_create(ptr_type, true);
   assert_notnull(ERROR, l, "List allocation failure.");
   list_destroy(l);
   return EXIT_SUCCESS;
 }
 
 __attribute__((test)) uint8_t list_size_test() {
-  list_t* l = list_create(ptr_class, true);
+  list_t* l = list_create(ptr_type, true);
   size_t i;
   assert_notnull(ERROR, l, "List allocation failure.");
   for (i = 0; i < 10; i++) {
@@ -54,7 +54,7 @@ __attribute__((test)) uint8_t list_size_test() {
 }
 
 __attribute__((test)) uint8_t list_iter_forward_test() {
-  list_t* l = list_create(ptr_class, true);
+  list_t* l = list_create(ptr_type, true);
   size_t i, len = 10;
   list_item_t* item;
   assert_notnull(ERROR, l, "List allocation failure.");
@@ -79,7 +79,7 @@ __attribute__((test)) uint8_t list_iter_forward_test() {
 }
 
 __attribute__((test)) uint8_t list_iter_backward_test() {
-  list_t* l = list_create(ptr_class, true);
+  list_t* l = list_create(ptr_type, true);
   size_t i, len = 10;
   list_item_t* item;
   assert_notnull(ERROR, l, "List allocation failure.");
@@ -103,7 +103,7 @@ __attribute__((test)) uint8_t list_iter_backward_test() {
 }
 
 __attribute__((test)) uint8_t list_iter_goto_test() {
-  list_t* l = list_create(ptr_class, true);
+  list_t* l = list_create(ptr_type, true);
   size_t i, len = 10;
   list_item_t* item;
   assert_notnull(ERROR, l, "List allocation failure.");
@@ -143,7 +143,7 @@ __attribute__((test)) uint8_t list_iter_goto_test() {
 }
 
 __attribute__((test)) uint8_t list_iter_at_test() {
-  list_t* l = list_create(ptr_class, true);
+  list_t* l = list_create(ptr_type, true);
   size_t i, len = 10;
   list_item_t* item;
   assert_notnull(ERROR, l, "List allocation failure.");
@@ -175,7 +175,7 @@ __attribute__((test)) uint8_t list_iter_at_test() {
 }
 
 __attribute__((test)) uint8_t list_head_test() {
-  list_t* l = list_create(ptr_class, true);
+  list_t* l = list_create(ptr_type, true);
   size_t i, len = 10;
   list_item_t* item;
   assert_notnull(ERROR, l, "List allocation failure.");
@@ -197,7 +197,7 @@ __attribute__((test)) uint8_t list_head_test() {
 }
 
 __attribute__((test)) uint8_t list_tail_test() {
-  list_t* l = list_create(ptr_class, true);
+  list_t* l = list_create(ptr_type, true);
   size_t i, len = 10;
   list_item_t* item;
   assert_notnull(ERROR, l, "List allocation failure.");
@@ -219,7 +219,7 @@ __attribute__((test)) uint8_t list_tail_test() {
 }
 
 __attribute__((test)) uint8_t list_insert_unordered_test() {
-  list_t* l = list_create(ptr_class, true);
+  list_t* l = list_create(ptr_type, true);
   size_t i, len = 10;
   list_item_t* item;
 
@@ -251,7 +251,7 @@ __attribute__((test)) uint8_t list_insert_unordered_test() {
 }
 
 __attribute__((test)) uint8_t list_insert_ordered_test() {
-  list_t* l = list_create(str_class, false);
+  list_t* l = list_create(str_type, false);
   char text[][10] = {
     "First",
     "Second",
@@ -292,7 +292,7 @@ __attribute__((test)) uint8_t list_insert_ordered_test() {
 }
 
 __attribute__((test)) uint8_t list_append_unordered_test() {
-  list_t* l = list_create(ptr_class, true);
+  list_t* l = list_create(ptr_type, true);
   size_t i, j, len = 10;
   list_item_t* item;
   assert_notnull(ERROR, l, "List allocation failure.");
@@ -316,7 +316,7 @@ __attribute__((test)) uint8_t list_append_unordered_test() {
 }
 
 __attribute__((test)) uint8_t list_append_ordered_test() {
-  list_t* l = list_create(str_class, true);
+  list_t* l = list_create(str_type, true);
   assert_notnull(ERROR, l, "List allocation failure.");
   list_order(l);
 
@@ -332,7 +332,7 @@ __attribute__((test)) uint8_t list_append_ordered_test() {
 }
 
 __attribute__((test)) uint8_t list_place_ordered_test() {
-  list_t* l = list_create(str_class, true);
+  list_t* l = list_create(str_type, true);
   assert_notnull(ERROR, l, "List allocation failure.");
   list_order(l);
 
@@ -348,7 +348,7 @@ __attribute__((test)) uint8_t list_place_ordered_test() {
 }
 
 __attribute__((test)) uint8_t list_place_unordered_test() {
-  list_t* l = list_create(ptr_class, true);
+  list_t* l = list_create(ptr_type, true);
   size_t i, len = 10;
   list_item_t* item;
   assert_notnull(ERROR, l, "List allocation failure.");
@@ -385,7 +385,7 @@ __attribute__((test)) uint8_t list_place_unordered_test() {
 }
 
 __attribute__((test)) uint8_t list_clear_test() {
-  list_t* l = list_create(ptr_class, true);
+  list_t* l = list_create(ptr_type, true);
   size_t i, len = 10;
   list_item_t* item;
   assert_notnull(ERROR, l, "List allocation failure.");
@@ -409,7 +409,7 @@ __attribute__((test)) uint8_t list_clear_test() {
 }
 
 __attribute__((test)) uint8_t list_delete_test() {
-  list_t* l = list_create(ptr_class, true);
+  list_t* l = list_create(ptr_type, true);
   size_t i, len = 10;
   list_item_t* item;
   assert_notnull(ERROR, l, "List allocation failure.");
@@ -433,7 +433,7 @@ __attribute__((test)) uint8_t list_delete_test() {
 }
 
 __attribute__((test)) uint8_t list_remove_found_unordered_test() {
-  list_t* l = list_create(ptr_class, true);
+  list_t* l = list_create(ptr_type, true);
   size_t i, len = 10;
   list_item_t* item;
   assert_notnull(ERROR, l, "List allocation failure.");
@@ -465,7 +465,7 @@ __attribute__((test)) uint8_t list_remove_found_unordered_test() {
 }
 
 __attribute__((test)) uint8_t list_remove_found_ordered_test() {
-  list_t* l = list_create(str_class, false);
+  list_t* l = list_create(str_type, false);
   char text[][10] = {
     "First",
     "Second",
@@ -517,7 +517,7 @@ __attribute__((test)) uint8_t list_remove_unfound_ordered_test() {
 }
 
 __attribute__((test)) uint8_t list_purge_uordered_test() {
-  list_t* l = list_create(ptr_class, true);
+  list_t* l = list_create(ptr_type, true);
   size_t i, len = 10;
   list_item_t* item;
   assert_notnull(ERROR, l, "List allocation failure.");
@@ -551,7 +551,7 @@ __attribute__((test)) uint8_t list_purge_uordered_test() {
 }
 
 __attribute__((test)) uint8_t list_order_test() {
-  list_t* l = list_create(str_class, false);
+  list_t* l = list_create(str_type, false);
   char text[][10] = {
     "First",
     "Second",

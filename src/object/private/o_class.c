@@ -1,8 +1,8 @@
 #include "object.h"
-#include "class.h"
+#include "type.h"
 
-/// @brief Object class
-const class_t* object_class = &(class_t){
+/// @brief Object type
+const type_t* object_type = &(type_t){
   .identifier = "object",
   .destroy = object_destroy,
   .repr = object_repr,
