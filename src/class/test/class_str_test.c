@@ -30,7 +30,7 @@ __attribute__((test)) uint8_t class_str_repr_test() {
   dest = rope_str(repr);
   assert_true(
     ERROR,
-    !strcmp(str, dest),
+    !strcmp("\"This is a test string!\"", dest),
     "String class repr error."
   );
   free(dest);

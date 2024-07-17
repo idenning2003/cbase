@@ -77,7 +77,7 @@ __attribute__((test)) uint8_t object_repr_test() {
   char* repr = rope_str(r);
   assert_false(
     ERROR,
-    strcmp(str, repr),
+    strcmp("\"Test\"", repr),
     "Object repr failure."
   );
   free(repr);

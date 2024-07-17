@@ -8,7 +8,7 @@
 #include "global.h"
 #include "list.h"
 #include "l_internal.h"
-#include "text.h"
+#include "class.h"
 
 /**
  * @brief Allocates and sets up list
@@ -16,18 +16,18 @@
  * @param item_destroy_func Function to call when destroying item
  * @param item_cmp_func Function to compare items of the list
  * @param item_totext_func Function to convert item to string
+ * @param connect_destroy when the object is destroyed, should the data be
  * @return list_t* The set up list.
  *
  * @warning If returns NULL, allocation failed
  */
-list_t* list_create(
-  void (*item_destroy_func)(list_item_t*),
-  int (*item_cmp_func)(const list_item_t*, const list_item_t*),
-  text_t* (*item_totext_func)(const list_item_t*)
-) {
+list_t* list_create(const class_t* type, bool connect_destroy) {
   list_t* self = (list_t*)malloc(sizeof(*_self));
   if (_self == NULL)
     return NULL;
+  _type = type;
+  if (_type == NULL)
+    _type = ptr_class;
   _head.next = &_tail;
   _head.prev = NULL;
   _head.data = NULL;
@@ -37,12 +37,9 @@ list_t* list_create(
   _iter = &_head;
   _index = -1;
   _size = 0;
+  _connect_destroy = connect_destroy;
+  _ordered = false;
   _reversed = false;
-  _item_destroy_func = item_destroy_func;
-  _item_cmp_func = item_cmp_func;
-  _item_totext_func = item_totext_func;
-  if (_item_totext_func == NULL)
-    _item_totext_func = __ptr_totext;
   return (list_t*)_self;
 }
 
@@ -222,7 +219,7 @@ bool list_has_prev(const list_t* self) {
  * @warning Append is not allowed for ordered lists, instead use insert
  */
 uint8_t list_append(list_t* self, list_item_t* item) {
-  if (_item_cmp_func != NULL)
+  if (_ordered)
     return ENOTSUP;
   return list_place(self, item, _size);
 }
@@ -238,7 +235,7 @@ uint8_t list_append(list_t* self, list_item_t* item) {
  * @warning Place is not allowed for ordered lists, instead use insert
  */
 uint8_t list_place(list_t* self, list_item_t* item, size_t index) {
-  if (_item_cmp_func != NULL)
+  if (_ordered)
     return ENOTSUP;
   uint8_t err;
   if (index == _size) {
@@ -253,7 +250,7 @@ uint8_t list_place(list_t* self, list_item_t* item, size_t index) {
 
 /**
  * @brief Inserts an item into the list
- * @details For unordered lists item is placed at iterator
+ * @note For unordered lists item is placed at iterator
  *
  * @param self The list
  * @param item The item to insert
@@ -261,7 +258,7 @@ uint8_t list_place(list_t* self, list_item_t* item, size_t index) {
  *    [EXIT_SUCCESS, ERANGE, ENOMEM]
  */
 uint8_t list_insert(list_t* self, list_item_t* item) {
-  if (_item_cmp_func && _size > 0) {
+  if (_ordered && _size > 0) {
     uint8_t err;
     list_item_t* item2;
     if ((err = list_head(self)))
@@ -269,8 +266,8 @@ uint8_t list_insert(list_t* self, list_item_t* item) {
     if ((err = list_next(self, &item2)))
       return err;
     while (
-      (!_reversed && _item_cmp_func(item, item2) > 0) ||
-      (_reversed && _item_cmp_func(item, item2) < 0)
+      (!_reversed && class_cmp(_type, item, item2) > 0) ||
+      (_reversed && class_cmp(_type, item, item2) < 0)
     ) {
       if (list_next(self, &item2)) {
         list_tail(self);
@@ -322,7 +319,7 @@ uint8_t list_remove(list_t* self, const list_item_t* item) {
   if ((err = list_head(self)))
     return err;
   while (!list_next(self, &item2)) {
-    if (__list_item_cmp(self, item, item2)) {
+    if (class_cmp(_type, item, item2)) {
       if ((err = __list_node_delete(self, _iter)))
         return err;
       return EXIT_SUCCESS;
@@ -348,7 +345,7 @@ uint8_t list_purge(list_t* self, const list_item_t* item) {
   if ((err = list_next(self, &item2)))
     return err;
   while (_iter != &_tail) {
-    if (__list_item_cmp(self, item, item2)) {
+    if (!class_cmp(_type, item, item2)) {
       found = true;
       if ((err = __list_node_delete(self, _iter)))
         return err;
@@ -366,15 +363,13 @@ uint8_t list_purge(list_t* self, const list_item_t* item) {
 /**
  * @brief Creates a copy of this list
  *
+ * TODO copy the reversed and ordered statuses.
+ *
  * @param self The list
  * @return list_t* The copy
  */
 list_t* list_copy(const list_t* self) {
-  list_t* other = list_create(
-    _item_destroy_func,
-    _item_cmp_func,
-    _item_totext_func
-  );
+  list_t* other = list_create(_type, _connect_destroy);
   if (other == NULL)
     return NULL;
   __list_node_t* n = &_head;
@@ -415,8 +410,31 @@ uint8_t list_reverse(list_t* self) {
  *    [EXIT_SUCCESS]
  */
 uint8_t list_unorder(list_t* self) {
-  _item_cmp_func = NULL;
-  _reversed = false;
+  _ordered = false;
+  return EXIT_SUCCESS;
+}
+
+/**
+ * @brief Orders the items of the list and redefines the list as ordered
+ *
+ * @param self The list
+ * @return uint8_t Status code
+ *    [EXIT_SUCCESS]
+ */
+uint8_t list_order(list_t* self) {
+  _ordered = true;
+  __list_node_t* n = &_head;
+  while ((n = n->next) != &_tail && n->next != &_tail) {
+    if (
+      (_reversed && class_cmp(_type, n->data, n->next->data) < 0) ||
+      (!_reversed && class_cmp(_type, n->data, n->next->data) > 0)
+    ) {
+      void* tmp = n->data;
+      n->data = n->next->data;
+      n->next->data = tmp;
+      n = &_head;
+    }
+  }
   return EXIT_SUCCESS;
 }
 
@@ -437,7 +455,7 @@ uint8_t list_indexof(
   __list_node_t* n = &_head;
   size_t index2 = 0;
   while ((n = n->next) != &_tail) {
-    if (__list_item_cmp(self, item, n->data)) {
+    if (class_cmp(_type, item, n->data)) {
       *index = index2;
       return EXIT_SUCCESS;
     }
@@ -470,50 +488,6 @@ bool list_contains(const list_t* self, const list_item_t* item) {
  */
 int list_cmp(UNUSED const list_t* self, UNUSED const list_t* other) {
   return ENOSYS;
-}
-
-/**
- * @brief Convert the to a json style text object.
- *
- * @param self The list
- * @return text_t* Text object for this list.
- */
-text_t* list_totext(const list_t* self) {
-  __list_node_t* n = &_head;
-  text_t* t = text_create();
-  text_t* temp;
-  text_append(t, '[');
-  while ((n = n->next) != &_tail) {
-    temp = _item_totext_func(n->data);
-    text_concat_text(t, temp);
-    text_destroy(temp);
-    if (n->next != &_tail)
-      text_concat_string(t, ", ");
-  }
-  text_append(t, ']');
-  return t;
-}
-
-/**
- * @brief Print this list to the terminal.
- *
- * @param self The list
- * @return uint8_t Status code
- *    [EXIT_SUCCESS, ENOMEM, *ERANGE]
- */
-uint8_t list_print(const list_t* self) {
-  uint8_t err;
-  text_t* t = list_totext(self);
-  if (t == NULL)
-    return ENOMEM;
-  char* s = text_tostring(t);
-  if (s == NULL)
-    return ENOMEM;
-  printf("%s",s);
-  if ((err = text_destroy(t)))
-    return err;
-  free(s);
-  return EXIT_SUCCESS;
 }
 
 /**
@@ -557,38 +531,23 @@ uint8_t __list_node_delete(list_t* self, __list_node_t* n) {
   n->next->prev = n->prev;
   _size--;
   _iter = n->next;
-  if (_item_destroy_func != NULL)
-    _item_destroy_func(n->data);
+  if (_connect_destroy)
+    class_destroy(_type, n->data);
   free(n);
   return EXIT_SUCCESS;
 }
 
-/**
- * @brief Compare two items by the rules of this list
- *
- * @param self The list
- * @param n1 First node
- * @param n2 Second node
- * @return int 0 if same else if different
- */
-int __list_item_cmp(
-  const list_t* self,
-  const list_item_t* item1,
-  const list_item_t* item2
-) {
-  return (_item_cmp_func && !_item_cmp_func(item1, item2)) || item1 == item2;
-}
-
-/**
- * @brief Convert a pointer to text
- *
- * @param ptr The pointer
- * @return text_t* The text
- */
-text_t* __ptr_totext(const void* ptr) {
-  char arr[21];
-  text_t* s = text_create();
-  sprintf(arr, "%p", ptr);
-  text_concat_string(s, arr);
-  return s;
+void list_print(const list_t* self) {
+  __list_node_t* n = &_head;
+  printf("[");
+  while ((n = n->next) != &_tail) {
+    rope_t* rope = class_repr(_type, n->data);
+    char* repr = rope_str(rope);
+    printf("%s", repr);
+    free(repr);
+    rope_destroy(rope);
+    if (n->next != &_tail)
+      printf(", ");
+  }
+  printf("]");
 }

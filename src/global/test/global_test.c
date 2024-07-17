@@ -9,7 +9,6 @@
 #include "list.h"
 #include "global.h"
 #include "g_test.h"
-#include "text.h"
 
 #ifndef DT_DIR
   #define DT_DIR 4
@@ -27,7 +26,7 @@ __attribute__((test)) int global_test() {
   char cwd[PATH_MAX];
   assert_notnull(ERROR, getcwd(cwd, sizeof(cwd)), "Could not get CWD.");
 
-  list_t* files = list_create(free, NULL, list_item_string_totext);
+  list_t* files = list_create(str_class, true);
   uint8_t err = global_findall_files(files, cwd);
   assert_null(ERROR, err, "Could not find test executables.");
 
@@ -48,12 +47,6 @@ __attribute__((test)) int global_test() {
 
   list_destroy(files);
   return err;
-}
-
-text_t* list_item_string_totext(const list_item_t* s) {
-  text_t* t = text_create();
-  text_concat_string(t, (const char*)s);
-  return t;
 }
 
 uint8_t global_findall_files(list_t* files, char* path) { // Hello world

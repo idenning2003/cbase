@@ -68,7 +68,7 @@ uint64_t class_hash(const class_t* c, const void* self) {
  * @note Returns pointer comparison if no comparison function is defined
  */
 int class_cmp(const class_t* c, const void* self, const void* other) {
-  if (c->hash == NULL)
-    class_cmp(ptr_class, self, other);
+  if (c->cmp == NULL)
+    return class_cmp(ptr_class, self, other);
   return c->cmp(self, other);
 }

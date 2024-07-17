@@ -22,7 +22,7 @@ __attribute__((test)) uint8_t class_ptr_repr_test() {
   for (ptrdiff_t i = 1; i; i *= 2) {
     repr = class_repr(ptr_class, (void*)i);
     str1 = rope_str(repr);
-    sprintf(str2, "%p", (void*)i);
+    sprintf(str2, "\"%p\"", (void*)i);
     assert_true(
       ERROR,
       !strcmp(str1, str2),

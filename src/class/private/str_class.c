@@ -12,7 +12,10 @@
  * @return rope_t* The representation of this string
  */
 rope_t* str_repr(const void* s) {
-  rope_t* r = rope_create_with(s);
+  char* temp = (char*)malloc(sizeof(*temp) * (strlen(s) + 3));
+  sprintf(temp, "\"%s\"", (const char*)s);
+  rope_t* r = rope_create_with(temp);
+  free(temp);
   return r;
 }
 
