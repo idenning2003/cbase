@@ -23,7 +23,7 @@ list_t* list_create(
   int(*)(const list_item_t*, const list_item_t*),
   text_t*(*)(const list_item_t*)
 );
-uint8_t list_destroy(list_t*);
+void list_destroy(list_t*);
 size_t list_size(const list_t*);
 uint8_t list_head(list_t*);
 uint8_t list_tail(list_t*);

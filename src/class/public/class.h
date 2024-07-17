@@ -15,11 +15,11 @@
 
 /// @brief Methods of a class
 typedef struct Class {
-  /// @brief The name of this class
-  const char* name;
+  /// @brief The identifier of this class
+  const char* identifier;
   /// @brief Destroys an object of this class type
   void (*const destroy)(void*);
-  /// @brief Returns the name of specific class
+  /// @brief Returns a representation of an object of this class type
   rope_t* (*const repr)(const void*);
   /// @brief Returns a hash of an object of this class type
   uint64_t (*const hash)(const void*);
@@ -31,7 +31,7 @@ extern const class_t* ptr_class;
 extern const class_t* str_class;
 
 void class_destroy(const class_t*, void*);
-const char* class_name(const class_t*);
+const char* class_identifier(const class_t*);
 rope_t* class_repr(const class_t*, const void*);
 uint64_t class_hash(const class_t*, const void*);
 int class_cmp(const class_t*, const void*, const void*);

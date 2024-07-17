@@ -29,7 +29,7 @@ int class_cmp_call_test_func(const void*, const void*) {
 }
 
 const class_t* class_func_test = &(class_t){
-  .name = "func_test",
+  .identifier = "func_test",
   .destroy = class_destroy_call_test_func,
   .repr = class_repr_call_test_func,
   .hash = class_hash_call_test_func,

@@ -33,7 +33,7 @@ uint64_t str_hash(const void* s) {
 
 /// @brief String class
 const class_t* str_class = &(class_t){
-  .name = "str",
+  .identifier = "str",
   .destroy = free,
   .repr = str_repr,
   .hash = str_hash,

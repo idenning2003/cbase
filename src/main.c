@@ -5,7 +5,7 @@
 #include <string.h>
 #include <errno.h>
 
-#include "list.h"
+#include "object.h"
 #include "assert.h"
 
 int main(int argc, char* argv[]) {
@@ -14,10 +14,9 @@ int main(int argc, char* argv[]) {
   }
   printf("\n");
 
-
-  for (int i = 0; i < 2; i++) {
-    printf("%d\n", strcmp("3", "1"));
-  }
+  object_t* o = object_create(ptr_class, NULL, false);
+  assert_notnull(ERROR, o, "Object allocation failure.");
+  object_destroy(o);
 
   return 0;
 }

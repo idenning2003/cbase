@@ -67,7 +67,7 @@ Any function which is itself a test function should be marked with the
 NOTE: all files in the test folder will only be excluded from the main build and
 will only be included for the test build.
 
-## Rules
+## Contribution Rules
 A few rules must be followed under all circumstances to maintain code
 consistency and readability across the codebase. As this codebase improves,
 global testing will automatically check these rules. However, it is always
