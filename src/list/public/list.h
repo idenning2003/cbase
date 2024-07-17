@@ -13,14 +13,14 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "class.h"
+#include "type.h"
 
 typedef void list_t;
 typedef void list_item_t;
 
-extern const class_t* list_class;
+extern const type_t* list_type;
 
-list_t* list_create(const class_t*, bool);
+list_t* list_create(const type_t*, bool);
 void list_destroy(list_t*);
 size_t list_size(const list_t*);
 uint8_t list_head(list_t*);

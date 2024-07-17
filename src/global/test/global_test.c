@@ -26,7 +26,7 @@ __attribute__((test)) int global_test() {
   char cwd[PATH_MAX];
   assert_notnull(ERROR, getcwd(cwd, sizeof(cwd)), "Could not get CWD.");
 
-  list_t* files = list_create(str_class, true);
+  list_t* files = list_create(str_type, true);
   uint8_t err = global_findall_files(files, cwd);
   assert_null(ERROR, err, "Could not find test executables.");
 
