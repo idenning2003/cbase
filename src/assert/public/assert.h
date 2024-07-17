@@ -6,8 +6,6 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include "text.h"
-
 /**
  * @brief Assert value is true
  *

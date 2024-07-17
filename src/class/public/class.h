@@ -35,5 +35,6 @@ const char* class_identifier(const class_t*);
 rope_t* class_repr(const class_t*, const void*);
 uint64_t class_hash(const class_t*, const void*);
 int class_cmp(const class_t*, const void*, const void*);
+void class_print(const class_t*, const void*);
 
 #endif

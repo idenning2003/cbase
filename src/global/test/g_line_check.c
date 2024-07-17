@@ -9,18 +9,16 @@ uint8_t global_line_check(char* filename) {
   FILE* fp = fopen(filename, "r");
   assert_notnull(ERROR, fp, "Could not open file.");
 
-  text_t* t = text_create();
+  char str[82];
+  for (size_t i = 0; i < sizeof(str) / sizeof(*str); i++)
+    str[i] = '\0';
   size_t col = 1;
   size_t row = 1;
   int c;
-  char temp;
   uint8_t err = 0;
   while((c = getc(fp)) != EOF) {
     if (c == '\n') {
-      if (
-        !text_at(t, &temp, col - 2) &&
-        (temp == ' ' || temp == '\t')
-      ) {
+      if ((col >= 2) && (str[col - 2] == ' ' || str[col - 2] == '\t')) {
         err |= __assert_fail(
           ERROR,
           "Trailing whitespace.",
@@ -30,13 +28,12 @@ uint8_t global_line_check(char* filename) {
           col
         );
       }
-      if (!text_at(t, &temp, 0) && temp == '#') {
-        char* line = text_tostring(t);
-        if (!strncmp(line, "#include", 8)) {
+      if (str[0] == '#') {
+        if (!strncmp(str, "#include", 8)) {
           __assert_true(
             ERROR,
-            (line[8] == ' ' && line[9] == '"') ||
-            (line[8] == ' ' && line[9] == '<'),
+            (str[8] == ' ' && str[9] == '"') ||
+            (str[8] == ' ' && str[9] == '<'),
             "Include does not follow standards.",
             filename,
             NULL,
@@ -44,7 +41,6 @@ uint8_t global_line_check(char* filename) {
             col
           );
         }
-        free(line);
       }
       if (col > 81) // 81 since newline character is included in count
         err |= __assert_fail(
@@ -57,15 +53,15 @@ uint8_t global_line_check(char* filename) {
         );
 
       col = 1;
+      for (size_t i = 0; i < sizeof(str) / sizeof(*str); i++)
+        str[i] = '\0';
       row++;
-      assert_false(ERROR, text_clear(t), "Could not clear line.");
     } else {
+      str[col - 1] = (char)c;
       col++;
-      assert_false(ERROR, text_append(t, (char)c), "Could not append line.");
     }
   }
 
-  text_destroy(t);
   fclose(fp);
   return err;
 }

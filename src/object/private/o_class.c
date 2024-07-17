@@ -1,6 +1,7 @@
 #include "object.h"
 #include "class.h"
 
+/// @brief Object class
 const class_t* object_class = &(class_t){
   .identifier = "object",
   .destroy = object_destroy,

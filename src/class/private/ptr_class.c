@@ -13,9 +13,10 @@
  */
 rope_t* ptr_repr(const void* p) {
   char* str = (char*)malloc(
-    sizeof(long long) * 2 - __builtin_clzll((ptrdiff_t)p) / 4 + 3 * sizeof(*str)
+    sizeof(*str) *
+    (sizeof(long long) * 2 - __builtin_clzll((ptrdiff_t)p) / 4 + 5)
   );
-  sprintf(str, "%p", p);
+  sprintf(str, "\"%p\"", p);
   rope_t* r = rope_create_with(str);
   free(str);
   return r;

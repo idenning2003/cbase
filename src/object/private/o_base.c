@@ -84,7 +84,11 @@ uint64_t object_hash(const object_t* self) {
  *    >0: self > other
  *    <0: self < other
  *    =0: self = other
+ *
+ * @note if comparison functions are not the same, returns pointer comparison
  */
 int object_cmp(const object_t* self, const object_t* other) {
+  if (_type->cmp != ((__object_t*)other)->type->cmp)
+    return class_cmp(ptr_class, _data, ((__object_t*)other)->data);
   return class_cmp(_type, _data, ((__object_t*)other)->data);
 }
