@@ -54,4 +54,5 @@ dkms.conf
 # Project specific
 obj/
 bin/
+coverage/
 cbase.tar.gz
