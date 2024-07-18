@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 CC := gcc
-CFLAGS := -Wall -Wextra -Werror -gdwarf-4 -g3 --coverage
+CFLAGS := -Wall -Wextra -Werror -gdwarf-4 -g3
 LIBS := -lm
 
 SDIR := src/
@@ -31,13 +31,17 @@ test: $(EDIR)$(TEST) $(TEST-EXEC)
 
 tar: $(TAR)
 
-coverage: test
+coverage: CFLAGS += --coverage
+coverage: | clean test
 	@$(EDIR)$(TEST)
 	@if [ ! -d "$(CDIR)" ]; then \
 		mkdir -p $(CDIR); \
 		printf "make: \033[1;34m$(CDIR)\033[0m\n"; \
 	fi
-	@gcovr --root . --html --html-details --output coverage/coverage.html
+	@gcovr -e "(.*/)test/" -e "src/test.c" --sort uncovered-percent
+	@gcovr -e "(.*/)test/" -e "src/test.c" --root . --sort uncovered-percent --html --html-nested --html-title "cbase coverage" --html-template-dir .github/pages/default --html-theme github.dark-green --html-syntax-highlighting --output coverage/coverage.html
+	@cp .github/pages/resources/* coverage/
+	@rm -rf $(ODIR) $(EDIR)
 
 clean:
 	@rm -rf $(ODIR) $(EDIR) $(CDIR)
