@@ -51,13 +51,17 @@ jobs:
           name: coverage-report
           path: coverage
 
+      - name: Put coverage report on page
+        run: |
+          cp -r coverage/* .github/pages/
+
       - name: Setup pages
         uses: actions/configure-pages@v5
 
       - name: Upload pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: coverage
+          path: .github/pages/
 
       - name: Deploy pages
         id: deployment
