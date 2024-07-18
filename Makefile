@@ -38,7 +38,6 @@ coverage: | clean test
 		mkdir -p $(CDIR); \
 		printf "make: \033[1;34m$(CDIR)\033[0m\n"; \
 	fi
-	@gcovr -e "(.*/)test/" -e "src/test.c" --sort uncovered-percent
 	@gcovr -e "(.*/)test/" -e "src/test.c" --root . --sort uncovered-percent --html --html-nested --html-title "cbase coverage" --html-template-dir .github/pages/default --html-theme github.dark-green --html-syntax-highlighting --output coverage/coverage.html
 	@cp .github/pages/resources/* coverage/
 	@rm -rf $(ODIR) $(EDIR)

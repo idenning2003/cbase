@@ -29,6 +29,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Assign run id
+        run: |
+          sed -i 's/{{ github.run_id }}/${{ github.run_id }}/g' .github/pages/default/base.html
+
       - name: Tear down Docker Compose
         run: |
           docker-compose -f .devcontainer/docker-compose.yml down
