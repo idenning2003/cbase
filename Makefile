@@ -32,7 +32,7 @@ test: $(EDIR)$(TEST) $(TEST-EXEC)
 debug: CFLAGS += -gdwarf-4 -g3
 debug: | clean all
 
-coverage: CFLAGS += --coverage
+coverage: CFLAGS += --coverage -O0
 coverage: | clean debug
 	@$(EDIR)$(TEST)
 	@if [ ! -d "$(CDIR)" ]; then \
