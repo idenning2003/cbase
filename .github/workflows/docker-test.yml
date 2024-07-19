@@ -19,6 +19,7 @@ concurrency:
 
 jobs:
   test:
+    name: Docker Test
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -28,6 +29,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Assign run id
+        run: |
+          sed -i 's/github.run_id/${{ github.run_id }}/g' .github/pages/default/base.html
 
       - name: Tear down Docker Compose
         run: |
@@ -45,24 +50,13 @@ jobs:
         run: |
           docker-compose -f .devcontainer/docker-compose.yml down
 
-      - name: Upload coverage
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: coverage
-
-      - name: Put coverage report on page
-        run: |
-          cp -r coverage/* .github/pages/
-          for file in .github/pages/coverage*.html; do   sed -i '/<link rel="stylesheet" href="coverage.css"\/>/a\    <link rel="icon" href="./favicon.ico" type="image/x-icon">' "$file"; done
-
       - name: Setup pages
         uses: actions/configure-pages@v5
 
       - name: Upload pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .github/pages/
+          path: coverage
 
       - name: Deploy pages
         id: deployment

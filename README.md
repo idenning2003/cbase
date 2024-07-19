@@ -22,6 +22,8 @@ make        # Build main and test executables
  - `make test` make the test executable in `bin/test` and each test file's
     executable inside `bin/tests/`
  - `make clean` removes any files/folders produced from make targets
+ - `make debug` make build and test executables with debug symbols
+ - `make coverage` make html coverage report inside `coverage/`
  - `make tar` create `cbase.tar.gz` with any project files
 
 ### Executables

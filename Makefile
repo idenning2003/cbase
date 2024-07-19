@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 CC := gcc
-CFLAGS := -Wall -Wextra -Werror -gdwarf-4 -g3 --coverage
+CFLAGS := -Wall -Wextra -Werror
 LIBS := -lm
 
 SDIR := src/
@@ -29,15 +29,20 @@ build: $(EDIR)$(EXEC)
 
 test: $(EDIR)$(TEST) $(TEST-EXEC)
 
-tar: $(TAR)
+debug: CFLAGS += -gdwarf-4 -g3
+debug: | clean all
 
-coverage: test
+coverage: CFLAGS += --coverage -O0
+coverage: | clean debug
 	@$(EDIR)$(TEST)
 	@if [ ! -d "$(CDIR)" ]; then \
 		mkdir -p $(CDIR); \
 		printf "make: \033[1;34m$(CDIR)\033[0m\n"; \
 	fi
-	@gcovr --root . --html --html-details --output coverage/coverage.html
+	@gcovr -e "(.*/)test/" -e "src/test.c" -e "src/main.c" --root . --sort uncovered-percent --html --html-nested --html-title "cbase coverage" --html-template-dir .github/pages/default --html-theme github.dark-green --html-syntax-highlighting --output coverage/coverage.html
+	@cp .github/pages/resources/* coverage/
+
+tar: $(TAR)
 
 clean:
 	@rm -rf $(ODIR) $(EDIR) $(CDIR)
@@ -98,6 +103,6 @@ $(TAR): $(shell find . -type f ! -path "./.git/*" ! -name "$(TAR)" ! -path "./$(
 	@printf "make: \033[1;31m$@\033[0m\n"
 	@tar -czvf $(TAR) --transform 's,^,cbase/,' $(shell find . -type f ! -path "./.git/*" ! -name "$(TAR)" ! -path "./$(ODIR)/*" ! -path "./$(EDIR)/*") > /dev/null
 
-.PHONY: all build test tar clean coverage
+.PHONY: all build test clean debug coverage tar
 
 .PRECIOUS: $(TEST-OBJS) $(BUILD-OBJS)
