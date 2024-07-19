@@ -39,7 +39,7 @@ coverage: | clean debug
 		mkdir -p $(CDIR); \
 		printf "make: \033[1;34m$(CDIR)\033[0m\n"; \
 	fi
-	@gcovr -e "(.*/)test/" -e "src/test.c" --root . --sort uncovered-percent --html --html-nested --html-title "cbase coverage" --html-template-dir .github/pages/default --html-theme github.dark-green --html-syntax-highlighting --output coverage/coverage.html
+	@gcovr -e "(.*/)test/" -e "src/test.c" -e "src/main.c" --root . --sort uncovered-percent --html --html-nested --html-title "cbase coverage" --html-template-dir .github/pages/default --html-theme github.dark-green --html-syntax-highlighting --output coverage/coverage.html
 	@cp .github/pages/resources/* coverage/
 
 tar: $(TAR)
