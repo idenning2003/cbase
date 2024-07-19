@@ -19,6 +19,7 @@ concurrency:
 
 jobs:
   test:
+    name: Docker Test
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
