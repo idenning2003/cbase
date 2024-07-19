@@ -432,7 +432,8 @@ uint8_t list_order(list_t* self) {
       void* tmp = n->data;
       n->data = n->next->data;
       n->next->data = tmp;
-      n = &_head;
+      if (n->prev != &_head)
+        n = n->prev->prev;
     }
   }
   return EXIT_SUCCESS;

@@ -26,7 +26,7 @@
 #endif
 
 #ifndef WEXITSTATUS
-  #define WEXITSTATUS(l) 0
+  #define WEXITSTATUS(p) 0
 #endif
 
 int main(UNUSED int argc, UNUSED char* argv[]) {

@@ -5,13 +5,34 @@ on:
     branches:
       - '**'
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   test:
+    name: Docker Test
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     runs-on: self-hosted
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Assign run id
+        run: |
+          sed -i 's/github.run_id/${{ github.run_id }}/g' .github/pages/default/base.html
 
       - name: Tear down Docker Compose
         run: |
@@ -23,8 +44,20 @@ jobs:
 
       - name: Run tests
         run: |
-          docker-compose -f .devcontainer/docker-compose.yml exec -T devcontainer bash -c "cd /workspaces/cbase && make test && ./bin/test"
+          docker-compose -f .devcontainer/docker-compose.yml exec -T devcontainer bash -c "cd /workspaces/cbase && make coverage"
 
       - name: Tear down Docker Compose
         run: |
           docker-compose -f .devcontainer/docker-compose.yml down
+
+      - name: Setup pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: coverage
+
+      - name: Deploy pages
+        id: deployment
+        uses: actions/deploy-pages@v4
