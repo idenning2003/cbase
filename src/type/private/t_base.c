@@ -37,7 +37,7 @@ void type_destroy(const type_t* t, void* self) {
  */
 rope_t* type_repr(const type_t* t, const void* self) {
   if (t->repr == NULL)
-    return NULL;
+    return type_repr(ptr_type, self);
   return t->repr(self);
 }
 
@@ -78,15 +78,14 @@ int type_cmp(const type_t* t, const void* self, const void* other) {
 /**
  * @brief Prints an object of this type
  *
+ * @param f File to write to
  * @param t The type
  * @param self The object to print
  */
-void type_print(const type_t* t, const void* self) {
+void __type_print(FILE* f, const type_t* t, const void* self) {
   rope_t* rope = type_repr(t, self);
-  if (rope == NULL)
-    return;
   char* repr = rope_str(rope);
-  printf("%s\n", repr);
+  fprintf(f, "%s\n", repr);
   free(repr);
   rope_destroy(rope);
 }

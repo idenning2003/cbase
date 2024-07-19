@@ -30,13 +30,13 @@
 #endif
 
 int main(UNUSED int argc, UNUSED char* argv[]) {
-  char dir[] = "bin/tests";
+  char dir[] = "bin/tests/";
   DIR *dr = opendir(dir);
   assert_notnull(ERROR, dr, "Could open directory bin/tests/");
 
   struct dirent *de;
   int err = 0, status = 0;
-  char s[PATH_MAX];
+  char exe[PATH_MAX];
 
   // Check the public ssh key hash to disable valgrind on raspberry pi runner
   // TODO change this method to something more sensible or get a better runner.
@@ -46,28 +46,35 @@ int main(UNUSED int argc, UNUSED char* argv[]) {
                       "== "
                         "'9c55f619dba0eb1c0ccb6cc790b842dc' "
                     "]";
-  char cmd[] = "timeout 5 "
-               "valgrind "
-                 "-q "
-                 "--leak-check=full "
-                 "--track-origins=yes --error-exitcode=117 ";
+  char prefix[] = "timeout 5 "
+                    "valgrind "
+                      "-q "
+                      "--leak-check=full "
+                      "--track-origins=yes --error-exitcode=117 ";
+  char suffix[] = " 2>&1";
   if (!WEXITSTATUS(system(hash_cmd)))
-    cmd[10] = '\0';
-  int cmd_len = strlen(cmd);
-  char full[sizeof(s) / sizeof(*s) + cmd_len + 1];
-  strcpy(full, cmd);
+    prefix[10] = '\0';
+  int prefix_len = strlen(prefix);
+  char full[
+    prefix_len +
+    sizeof(exe) / sizeof(*exe) +
+    sizeof(suffix) / sizeof(*suffix) +
+    1
+  ];
+  strcpy(full, prefix);
   while ((de = readdir(dr)) != NULL) {
     if (de->d_type == DT_REG) {
-      strcpy(s, dir);
-      sprintf(s + sizeof(dir)/sizeof(*dir) - 1, "/%s", de->d_name);
-      int len = strlen(basename(s));
-      for (int i = 0; i < (69 - len) / 2; i++)
+      strcpy(exe, dir);
+      sprintf(exe + sizeof(dir)/sizeof(*dir) - 1, "%s", de->d_name);
+      int exe_len = strlen(basename(exe));
+      for (int i = 0; i < (69 - exe_len) / 2; i++)
         printf("-");
-      printf(" TESTING: %s ", basename(s));
-      for (int i = 0; i < (69 - len) / 2 + (69 - len) % 2; i++)
+      printf(" TESTING: %s ", de->d_name);
+      for (int i = 0; i < (69 - exe_len) / 2 + (69 - exe_len) % 2; i++)
         printf("-");
       printf("\n");
-      strcpy(full + cmd_len, s);
+      strcpy(full + prefix_len, exe);
+      strcpy(full + prefix_len + strlen(exe), suffix);
       FILE *fp = popen(full, "r");
       if (fp == NULL) {
         fprintf(stderr, "Error: Alias connection failure.");
@@ -89,14 +96,14 @@ int main(UNUSED int argc, UNUSED char* argv[]) {
   }
 
   if (err)
-    strcpy(s, RED " TESTING FAILURE " RST);
+    strcpy(exe, RED " TESTING FAILURE " RST);
   else
-    strcpy(s, GRN " TESTING SUCESSFUL " RST);
+    strcpy(exe, GRN " TESTING SUCESSFUL " RST);
 
-  int len = strlen(s) - strlen(RED) - strlen(RST);
+  int len = strlen(exe) - strlen(RED) - strlen(RST);
   for (int i = 0; i < (80 - len) / 2; i++)
     printf("-");
-  printf("%s", s);
+  printf("%s", exe);
   for (int i = 0; i < (80 - len) / 2 + (80 - len) % 2; i++)
     printf("-");
   printf("\n");

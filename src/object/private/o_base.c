@@ -96,8 +96,9 @@ int object_cmp(const object_t* self, const object_t* other) {
 /**
  * @brief Prints this object
  *
+ * @param f The file to write to
  * @param self The object
  */
-void object_print(const object_t* self) {
-  type_print(_type, _data);
+void __object_print(FILE* f, const object_t* self) {
+  __type_print(f, _type, _data);
 }

@@ -41,6 +41,7 @@ coverage: | clean debug
 	fi
 	@gcovr -e "(.*/)test/" -e "src/test.c" -e "src/main.c" --root . --sort uncovered-percent --html --html-nested --html-title "cbase coverage" --html-template-dir .github/pages/default --html-theme github.dark-green --html-syntax-highlighting --output coverage/coverage.html
 	@cp .github/pages/resources/* coverage/
+	@rm -rf $(ODIR) $(EDIR)
 
 tar: $(TAR)
 

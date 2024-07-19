@@ -20,6 +20,7 @@ uint8_t global_line_check(char* filename) {
     if (c == '\n') {
       if ((col >= 2) && (str[col - 2] == ' ' || str[col - 2] == '\t')) {
         err |= __assert_fail(
+          stderr,
           ERROR,
           "Trailing whitespace.",
           filename,
@@ -31,6 +32,7 @@ uint8_t global_line_check(char* filename) {
       if (str[0] == '#') {
         if (!strncmp(str, "#include", 8)) {
           __assert_true(
+            stderr,
             ERROR,
             (str[8] == ' ' && str[9] == '"') ||
             (str[8] == ' ' && str[9] == '<'),
@@ -44,6 +46,7 @@ uint8_t global_line_check(char* filename) {
       }
       if (col > 81) // 81 since newline character is included in count
         err |= __assert_fail(
+          stderr,
           ERROR,
           "Line too long.",
           filename,

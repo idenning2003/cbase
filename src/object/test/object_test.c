@@ -138,7 +138,7 @@ __attribute__((test)) uint8_t object_cmp_test1() {
   assert_true(
     ERROR,
     object_cmp(o1, o2) < 0,
-    "Object hash failure."
+    "Object cmp failure."
   );
   object_destroy(o1);
   object_destroy(o2);
@@ -157,7 +157,7 @@ __attribute__((test)) uint8_t object_cmp_test2() {
   assert_true(
     ERROR,
     object_cmp(o1, o2) > 0,
-    "Object hash failure."
+    "Object cmp failure."
   );
   object_destroy(o1);
   object_destroy(o2);
@@ -176,9 +176,96 @@ __attribute__((test)) uint8_t object_cmp_test3() {
   assert_true(
     ERROR,
     object_cmp(o1, o2) == 0,
-    "Object hash failure."
+    "Object cmp failure."
   );
   object_destroy(o1);
   object_destroy(o2);
+  return EXIT_SUCCESS;
+}
+
+__attribute__((test)) uint8_t object_cmp_test4() {
+  const type_t* null_test_type = &(type_t){
+    .identifier = "null test",
+    .destroy = NULL,
+    .repr = NULL,
+    .hash = NULL,
+    .cmp = NULL
+  };
+  object_t* o1 = object_create(null_test_type, (void*)0x38, false);
+  object_t* o2 = object_create(str_type, (void*)0x12, false);
+  assert_notnull(ERROR, o1, "Object allocation failure.");
+  assert_notnull(ERROR, o2, "Object allocation failure.");
+  assert_true(
+    ERROR,
+    object_cmp(o1, o2) > 0,
+    "Object cmp failure."
+  );
+  object_destroy(o1);
+  object_destroy(o2);
+  return EXIT_SUCCESS;
+}
+
+__attribute__((test)) uint8_t object_cmp_test5() {
+  const type_t* null_test_type = &(type_t){
+    .identifier = "null test",
+    .destroy = NULL,
+    .repr = NULL,
+    .hash = NULL,
+    .cmp = NULL
+  };
+  object_t* o1 = object_create(str_type, (void*)0x78, false);
+  object_t* o2 = object_create(null_test_type, (void*)0x134, false);
+  assert_notnull(ERROR, o1, "Object allocation failure.");
+  assert_notnull(ERROR, o2, "Object allocation failure.");
+  assert_true(
+    ERROR,
+    object_cmp(o1, o2) < 0,
+    "Object cmp failure."
+  );
+  object_destroy(o1);
+  object_destroy(o2);
+  return EXIT_SUCCESS;
+}
+
+__attribute__((test)) uint8_t object_cmp_test6() {
+  const type_t* null_test_type = &(type_t){
+    .identifier = "null test",
+    .destroy = NULL,
+    .repr = NULL,
+    .hash = NULL,
+    .cmp = NULL
+  };
+  object_t* o1 = object_create(null_test_type, (void*)0x753, false);
+  object_t* o2 = object_create(str_type, (void*)0x753, false);
+  assert_notnull(ERROR, o1, "Object allocation failure.");
+  assert_notnull(ERROR, o2, "Object allocation failure.");
+  assert_true(
+    ERROR,
+    object_cmp(o1, o2) == 0,
+    "Object cmp failure."
+  );
+  object_destroy(o1);
+  object_destroy(o2);
+  return EXIT_SUCCESS;
+}
+
+__attribute__((test)) uint8_t object_print_test() {
+  object_t* o = object_create(str_type, "Test Text", false);
+  assert_notnull(ERROR, o, "Object allocation failure.");
+
+  size_t size = 100;
+  char* buf = (char*)malloc(sizeof(*buf) * size);
+  for (size_t i = 0; i < size; i++)
+    buf[i] = '\0';
+  FILE* stream = fmemopen(buf, size, "r+");
+  __object_print(stream, o);
+  fclose(stream);
+  assert_false(
+    ERROR,
+    strcmp(buf, "\"Test Text\"\n"),
+    "NULL print object failure."
+  );
+  free(buf);
+  object_destroy(o);
   return EXIT_SUCCESS;
 }
