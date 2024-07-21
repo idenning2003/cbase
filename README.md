@@ -94,9 +94,9 @@ will not be enforced.
 Before the end of any file, there must be at least one newline character `\n`.
 
 ### 5. Trailing Whitespace
-Any trailing whitespace, meaning space characters ' ' before a newline, is
-strictly prohibited. I ([idenning2003](https://github.com/idenning2003)) have a
-personal vendetta against trailing whitespace.
+Any trailing whitespace, meaning space characters `' '` before a newline `\n`,
+is strictly prohibited. I ([idenning2003](https://github.com/idenning2003)) have
+a personal vendetta against trailing whitespace.
 
 ### 6. Constant Qualifier
 Use it whenever possible in function parameters and whenever it makes sense in
@@ -114,18 +114,13 @@ Example from [`src/list/private/l_base.c`](/src/list/private/l_base.c)
 /**
  * @brief Allocates and sets up list
  *
- * @param item_destroy_func Function to call when destroying item
- * @param item_cmp_func Function to compare items of the list
- * @param item_totext_func Function to convert item to string
+ * @param type The type of structures contained in the list
+ * @param connect_destroy when the object is destroyed, should the data be
  * @return list_t* The set up list.
  *
  * @warning If returns NULL, allocation failed
  */
-list_t* list_create(
- void (*item_destroy_func)(list_item_t*),
- int (*item_cmp_func)(const list_item_t*, const list_item_t*),
- text_t* (*item_totext_func)(const list_item_t*)
-) {
+list_t* list_create(const type_t* type, bool connect_destroy) {
  ...
 }
 ```
@@ -175,7 +170,8 @@ void hello_world(
 
 ![](https://placehold.co/1/F03C15/F03C15.png) NOT Acceptable:
 ```
-void hello_world () {
+void hello_world ()
+{
  ...
 }
 ```
