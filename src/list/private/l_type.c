@@ -20,7 +20,7 @@ rope_t* list_repr(const list_t* self) {
     rope_destroy(rope);
   }
 
-  char* repr_iter, *repr = (char*)malloc(sizeof(*item_repr) * (len + 1));
+  char* repr_iter, *repr = (char*)malloc(sizeof(*repr) * (len + 3));
   repr[0] = '[';
   repr_iter = repr + 1;
   list_head(item_reprs);
@@ -29,9 +29,10 @@ rope_t* list_repr(const list_t* self) {
     if (list_has_next(item_reprs))
       sprintf(repr_iter, "%s, %n", item_repr, &len2);
     else
-      sprintf(repr_iter, "%s]%n", item_repr, &len2);
+      sprintf(repr_iter, "%s%n", item_repr, &len2);
     repr_iter += len2;
   }
+  sprintf(repr_iter, "]");
   list_destroy(item_reprs);
   return repr;
 }
