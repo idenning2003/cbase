@@ -1,6 +1,7 @@
 #include "assert.h"
 
 void __assert_out(
+  FILE*,
   assert_level_t,
   const char*,
   const char*,
@@ -9,4 +10,4 @@ void __assert_out(
   size_t
 );
 
-void __assert_excerpt(const char* file, size_t line);
+void __assert_excerpt(FILE*, const char* file, size_t line);

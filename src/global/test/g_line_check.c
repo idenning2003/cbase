@@ -20,6 +20,7 @@ uint8_t global_line_check(char* filename) {
     if (c == '\n') {
       if ((col >= 2) && (str[col - 2] == ' ' || str[col - 2] == '\t')) {
         err |= __assert_fail(
+          stdout,
           ERROR,
           "Trailing whitespace.",
           filename,
@@ -31,6 +32,7 @@ uint8_t global_line_check(char* filename) {
       if (str[0] == '#') {
         if (!strncmp(str, "#include", 8)) {
           __assert_true(
+            stdout,
             ERROR,
             (str[8] == ' ' && str[9] == '"') ||
             (str[8] == ' ' && str[9] == '<'),
@@ -42,8 +44,9 @@ uint8_t global_line_check(char* filename) {
           );
         }
       }
-      if (col > 81) // 81 since newline character is included in count
+      if (col > 81) {// 81 since newline character is included in count
         err |= __assert_fail(
+          stdout,
           ERROR,
           "Line too long.",
           filename,
@@ -51,14 +54,17 @@ uint8_t global_line_check(char* filename) {
           row,
           col
         );
+      }
 
       col = 1;
       for (size_t i = 0; i < sizeof(str) / sizeof(*str); i++)
         str[i] = '\0';
       row++;
     } else {
-      str[col - 1] = (char)c;
-      col++;
+      if (col <= 81) {
+        str[col - 1] = (char)c;
+        col++;
+      }
     }
   }
 

@@ -10,8 +10,13 @@
 #define TYPE_H
 
 #include <stdint.h>
+#include <stdio.h>
 
 #include "rope.h"
+
+#define type_print(t, self) ({ \
+  __type_print(stdout, t, self); \
+}) \
 
 /// @brief Methods of a type
 typedef struct Type {
@@ -35,6 +40,6 @@ const char* type_identifier(const type_t*);
 rope_t* type_repr(const type_t*, const void*);
 uint64_t type_hash(const type_t*, const void*);
 int type_cmp(const type_t*, const void*, const void*);
-void type_print(const type_t*, const void*);
+void __type_print(FILE*, const type_t*, const void*);
 
 #endif

@@ -15,6 +15,10 @@
 
 #include "type.h"
 
+#define list_print(self) ({ \
+  __list_print(stdout, self); \
+}) \
+
 typedef void list_t;
 typedef void list_item_t;
 
@@ -45,7 +49,8 @@ uint8_t list_unorder(list_t*);
 uint8_t list_indexof(const list_t*, size_t*, const list_item_t*);
 bool list_contains(const list_t*, const list_item_t*);
 int list_cmp(const list_t*, const list_t*);
+const type_t* list_typeof(const list_t*);
 
-void list_print(const list_t*);
+void __list_print(FILE*, const list_t*);
 
 #endif

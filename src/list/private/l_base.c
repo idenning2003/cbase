@@ -21,8 +21,6 @@
  */
 list_t* list_create(const type_t* type, bool connect_destroy) {
   list_t* self = (list_t*)malloc(sizeof(*_self));
-  if (_self == NULL)
-    return NULL;
   _type = type;
   if (_type == NULL)
     _type = ptr_type;
@@ -46,7 +44,7 @@ list_t* list_create(const type_t* type, bool connect_destroy) {
  *
  * @param self The list
  * @return uint8_t Status code
- *    [EXIT_SUCCESS, *ERANGE]
+ *    [EXIT_SUCCESS]
  */
 void list_destroy(list_t* self) {
   list_clear(self);
@@ -98,20 +96,15 @@ uint8_t list_tail(list_t* self) {
  *    [EXIT_SUCCESS, ERANGE]
  */
 uint8_t list_goto(list_t* self, size_t index) {
-  uint8_t err;
   if (index >= _size)
     return ERANGE;
-  if (_iter == &_head) {
-    if ((err = list_next(self, NULL)))
-      return err;
-  }
+  if (_iter == &_head)
+    list_next(self, NULL);
   while (_index < index) {
-    if ((err = list_next(self, NULL)))
-      return err;
+    list_next(self, NULL);
   }
   while (_index > index) {
-    if ((err = list_prev(self, NULL)))
-      return err;
+    list_prev(self, NULL);
   }
   return EXIT_SUCCESS;
 }
@@ -138,11 +131,8 @@ uint8_t list_at(const list_t* self, list_item_t** item, size_t index) {
   }
 
   // Move forward to the item
-  while (index2 < index) {
-    if ((n = n->next) == &_tail)
-      return ERANGE;
-    index2++;
-  }
+  while (index2++ < index)
+    n = n->next;
   *item = n->data;
   return EXIT_SUCCESS;
 }
@@ -193,7 +183,7 @@ uint8_t list_prev(list_t* self, list_item_t** item) {
  * @return false
  */
 bool list_has_next(const list_t* self) {
-  return _iter->next != &_tail && _iter != &_tail;
+  return _iter != &_tail && _iter->next != &_tail;
 }
 
 /**
@@ -204,7 +194,7 @@ bool list_has_next(const list_t* self) {
  * @return false
  */
 bool list_has_prev(const list_t* self) {
-  return _iter->prev != &_head && _iter != &_head;
+  return _iter != &_head && _iter->prev != &_head;
 }
 
 /**
@@ -237,8 +227,7 @@ uint8_t list_place(list_t* self, list_item_t* item, size_t index) {
     return ENOTSUP;
   uint8_t err;
   if (index == _size) {
-    if ((err = list_tail(self)))
-      return err;
+    list_tail(self);
   } else {
     if ((err = list_goto(self, index)))
       return err;
@@ -257,12 +246,9 @@ uint8_t list_place(list_t* self, list_item_t* item, size_t index) {
  */
 uint8_t list_insert(list_t* self, list_item_t* item) {
   if (_ordered && _size > 0) {
-    uint8_t err;
-    list_item_t* item2;
-    if ((err = list_head(self)))
-      return err;
-    if ((err = list_next(self, &item2)))
-      return err;
+    list_item_t* item2 = NULL;
+    list_head(self);
+    list_next(self, &item2);
     while (
       (!_reversed && type_cmp(_type, item, item2) > 0) ||
       (_reversed && type_cmp(_type, item, item2) < 0)
@@ -313,14 +299,17 @@ uint8_t list_delete(list_t* self, size_t index) {
  */
 uint8_t list_remove(list_t* self, const list_item_t* item) {
   list_item_t* item2;
-  uint8_t err;
-  if ((err = list_head(self)))
-    return err;
+  list_head(self);
   while (!list_next(self, &item2)) {
-    if (type_cmp(_type, item, item2)) {
-      if ((err = __list_node_delete(self, _iter)))
-        return err;
+    if (!type_cmp(_type, item, item2)) {
+      __list_node_delete(self, _iter);
       return EXIT_SUCCESS;
+    } else if (
+      _ordered &&
+      ((!_reversed && type_cmp(_type, item, item2) < 0) ||
+      (_reversed && type_cmp(_type, item, item2) > 0))
+    ) {
+      break;
     }
   }
   return ENOENT;
@@ -335,22 +324,20 @@ uint8_t list_remove(list_t* self, const list_item_t* item) {
  *    [EXIT_SUCCESS, ENOENT, *ERANGE]
  */
 uint8_t list_purge(list_t* self, const list_item_t* item) {
-  list_item_t* item2;
-  uint8_t err;
   bool found = false;
-  if ((err = list_head(self)))
-    return err;
-  if ((err = list_next(self, &item2)))
-    return err;
-  while (_iter != &_tail) {
-    if (!type_cmp(_type, item, item2)) {
+  list_head(self);
+  while (!list_next(self, NULL)) {
+    while (_iter != &_tail && !type_cmp(_type, item, _iter->data)) {
+      __list_node_delete(self, _iter);
+      list_print(self);
       found = true;
-      if ((err = __list_node_delete(self, _iter)))
-        return err;
-      item2 = _iter->data;
-    } else {
-      if (list_next(self, &item2))
-        break;
+    }
+    if (
+      _ordered &&
+      ((!_reversed && type_cmp(_type, item, _iter->data) < 0) ||
+      (_reversed && type_cmp(_type, item, _iter->data) > 0))
+    ) {
+      break;
     }
   }
   if (!found)
@@ -366,13 +353,9 @@ uint8_t list_purge(list_t* self, const list_item_t* item) {
  */
 list_t* list_copy(const list_t* self) {
   list_t* other = list_create(_type, _connect_destroy);
-  if (other == NULL)
-    return NULL;
   __list_node_t* n = &_head;
-  while ((n = n->next) != &_tail) {
-    if (list_append(other, n->data))
-      return NULL;
-  }
+  while ((n = n->next) != &_tail)
+    list_append(other, n->data);
   if (_reversed)
     list_reverse(other);
   if (_ordered)
@@ -403,18 +386,6 @@ uint8_t list_reverse(list_t* self) {
 }
 
 /**
- * @brief Redefine the current list as unordered
- *
- * @param self The list
- * @return uint8_t Status code
- *    [EXIT_SUCCESS]
- */
-uint8_t list_unorder(list_t* self) {
-  _ordered = false;
-  return EXIT_SUCCESS;
-}
-
-/**
  * @brief Orders the items of the list and redefines the list as ordered
  *
  * @param self The list
@@ -440,6 +411,18 @@ uint8_t list_order(list_t* self) {
 }
 
 /**
+ * @brief Redefine the current list as unordered
+ *
+ * @param self The list
+ * @return uint8_t Status code
+ *    [EXIT_SUCCESS]
+ */
+uint8_t list_unorder(list_t* self) {
+  _ordered = false;
+  return EXIT_SUCCESS;
+}
+
+/**
  * @brief Finds the index of the first instance of specified item in the list
  *
  * @param self The list
@@ -456,9 +439,16 @@ uint8_t list_indexof(
   __list_node_t* n = &_head;
   size_t index2 = 0;
   while ((n = n->next) != &_tail) {
-    if (type_cmp(_type, item, n->data)) {
-      *index = index2;
+    if (!type_cmp(_type, item, n->data)) {
+      if (index != NULL)
+        *index = index2;
       return EXIT_SUCCESS;
+    } else if (
+      _ordered &&
+      ((!_reversed && type_cmp(_type, item, n->data) < 0) ||
+      (_reversed && type_cmp(_type, item, n->data) > 0))
+    ) {
+      break;
     }
     index2++;
   }
@@ -487,8 +477,33 @@ bool list_contains(const list_t* self, const list_item_t* item) {
  *    <0: self < other
  *    =0: self = other
  */
-int list_cmp(UNUSED const list_t* self, UNUSED const list_t* other) {
-  return ENOSYS; // TODO Implement
+int list_cmp(const list_t* self, const list_t* other) {
+  __list_node_t* n1 = &_head;
+  __list_node_t* n2 = &(((__list_t*)other)->head);
+  int cmp = 0;
+  const type_t* type = _type;
+  if (type != (((__list_t*)other)->type))
+    type = ptr_type;
+  while (
+    (n1 = n1->next) != &_tail &&
+    (n2 = n2->next) != &(((__list_t*)other)->tail) &&
+    !(cmp = type_cmp(type, n1->data, n2->data))
+  );
+  if (n1 == &_tail && n2->next != &(((__list_t*)other)->tail))
+    cmp = -1;
+  else if (n2 == &(((__list_t*)other)->tail))
+    cmp = 1;
+  return cmp;
+}
+
+/**
+ * @brief Returns the type with this list
+ *
+ * @param self The list
+ * @return const type_t* The type with this list
+ */
+const type_t* list_typeof(const list_t* self) {
+  return _type;
 }
 
 /**
@@ -501,8 +516,6 @@ int list_cmp(UNUSED const list_t* self, UNUSED const list_t* other) {
  */
 uint8_t __list_node_insert(list_t* self, list_item_t* item) {
   __list_node_t* n = (__list_node_t*)malloc(sizeof(*n));
-  if (n == NULL)
-    return ENOMEM;
   if (_iter == &_head) {
     if (_size > 0)
       list_next(self, NULL);
@@ -541,19 +554,13 @@ uint8_t __list_node_delete(list_t* self, __list_node_t* n) {
 /**
  * @brief Prints the list to stdout
  *
+ * @param f The file to write to
  * @param self The list
  */
-void list_print(const list_t* self) {
-  __list_node_t* n = &_head;
-  printf("[");
-  while ((n = n->next) != &_tail) {
-    rope_t* rope = type_repr(_type, n->data);
-    char* repr = rope_str(rope);
-    printf("%s", repr);
-    free(repr);
-    rope_destroy(rope);
-    if (n->next != &_tail)
-      printf(", ");
-  }
-  printf("]");
+void __list_print(FILE* f, const list_t* self) {
+  rope_t* rope = type_repr(list_type, self);
+  char* str = rope_str(rope);
+  fprintf(f, "%s\n", str);
+  free(str);
+  rope_destroy(rope);
 }

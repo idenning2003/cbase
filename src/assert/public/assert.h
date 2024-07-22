@@ -1,6 +1,7 @@
 #ifndef ASSERT_H
 #define ASSERT_H
 
+#include <stdio.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -15,6 +16,7 @@
  */
 #define assert_true(l, v, s) ({ \
   uint8_t _a_temp_ = __assert_true( \
+    stdout, \
     l, \
     v, \
     s, \
@@ -36,6 +38,7 @@
  */
 #define assert_false(l, v, s) ({ \
   uint8_t _a_temp_ = __assert_false( \
+    stdout, \
     l, \
     v, \
     s, \
@@ -56,6 +59,7 @@
  */
 #define assert_fail(l, s) ({ \
   uint8_t _a_temp_ = __assert_fail( \
+    stdout, \
     l, \
     s, \
     __FILE__, \
@@ -78,6 +82,7 @@
 #define assert_equal(l, v1, v2, s) ({ \
   if (v1 != v2) { \
     uint8_t _a_temp_ = __assert_fail( \
+    stdout, \
       l, \
       s, \
       __FILE__, \
@@ -101,6 +106,7 @@
 #define assert_notequal(l, v1, v2, s) ({ \
   if (v1 == v2) { \
     uint8_t _a_temp_ = __assert_fail( \
+    stdout, \
       l, \
       s, \
       __FILE__, \
@@ -123,6 +129,7 @@
 #define assert_null(l, v, s) ({ \
   if (v) { \
     uint8_t _a_temp_ = __assert_fail( \
+    stdout, \
       l, \
       s, \
       __FILE__, \
@@ -145,6 +152,7 @@
 #define assert_notnull(l, v, s) ({ \
   if (!v) { \
     uint8_t _a_temp_ = __assert_fail( \
+    stdout, \
       l, \
       s, \
       __FILE__, \
@@ -165,6 +173,7 @@ typedef enum __attribute__((__packed__)) {
 
 
 uint8_t __assert_true(
+  FILE*,
   assert_level_t,
   bool,
   const char*,
@@ -175,6 +184,7 @@ uint8_t __assert_true(
 );
 
 uint8_t __assert_false(
+  FILE*,
   assert_level_t,
   bool,
   const char*,
@@ -185,6 +195,7 @@ uint8_t __assert_false(
 );
 
 uint8_t __assert_fail(
+  FILE*,
   assert_level_t,
   const char*,
   const char*,
