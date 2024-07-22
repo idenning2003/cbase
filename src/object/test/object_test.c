@@ -5,6 +5,8 @@
 #include "assert.h"
 #include "object.h"
 
+FILE *fmemopen(void *__restrict, size_t, const char *__restrict);
+
 __attribute__((test)) uint8_t object_create_test() {
   object_t* o = object_create(ptr_type, NULL, true);
   assert_notnull(ERROR, o, "Object allocation failure.");

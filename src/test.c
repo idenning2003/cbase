@@ -29,6 +29,8 @@
   #define WEXITSTATUS(p) 0
 #endif
 
+FILE *popen(const char *, const char *);
+
 int main(UNUSED int argc, UNUSED char* argv[]) {
   char dir[] = "bin/tests/";
   DIR *dr = opendir(dir);

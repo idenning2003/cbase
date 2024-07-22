@@ -324,21 +324,18 @@ uint8_t list_remove(list_t* self, const list_item_t* item) {
  *    [EXIT_SUCCESS, ENOENT, *ERANGE]
  */
 uint8_t list_purge(list_t* self, const list_item_t* item) {
-  list_item_t* item2;
   bool found = false;
   list_head(self);
-  while (!list_next(self, &item2)) {
-    if (!type_cmp(_type, item, item2)) {
+  while (!list_next(self, NULL)) {
+    while (_iter != &_tail && !type_cmp(_type, item, _iter->data)) {
       __list_node_delete(self, _iter);
+      list_print(self);
       found = true;
-      if (_iter == _head.next)
-        list_head(self);
-      else
-        list_prev(self, NULL);
-    } else if (
+    }
+    if (
       _ordered &&
-      ((!_reversed && type_cmp(_type, item, item2) < 0) ||
-      (_reversed && type_cmp(_type, item, item2) > 0))
+      ((!_reversed && type_cmp(_type, item, _iter->data) < 0) ||
+      (_reversed && type_cmp(_type, item, _iter->data) > 0))
     ) {
       break;
     }
@@ -565,5 +562,5 @@ void __list_print(FILE* f, const list_t* self) {
   char* str = rope_str(rope);
   fprintf(f, "%s\n", str);
   free(str);
-  free(rope);
+  rope_destroy(rope);
 }
