@@ -10,6 +10,5 @@
 #include "list.h"
 
 int main(UNUSED int argc, UNUSED char* argv[]) {
-
   return 0;
 }

@@ -329,7 +329,6 @@ uint8_t list_purge(list_t* self, const list_item_t* item) {
   while (!list_next(self, NULL)) {
     while (_iter != &_tail && !type_cmp(_type, item, _iter->data)) {
       __list_node_delete(self, _iter);
-      list_print(self);
       found = true;
     }
     if (
