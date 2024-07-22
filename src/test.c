@@ -77,7 +77,7 @@ int main(UNUSED int argc, UNUSED char* argv[]) {
       strcpy(full + prefix_len + strlen(exe), suffix);
       FILE *fp = popen(full, "r");
       if (fp == NULL) {
-        fprintf(stderr, "Error: Alias connection failure.");
+        printf("Error: Alias connection failure.");
         return 1;
       }
       int c;

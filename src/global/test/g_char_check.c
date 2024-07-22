@@ -18,7 +18,7 @@ uint8_t global_char_check(char* filename) {
     }
     if (c == '\r') {
       err |= __assert_fail(
-        stderr,
+        stdout,
         ERROR,
         "Carriage return character found.",
         filename,
@@ -29,7 +29,7 @@ uint8_t global_char_check(char* filename) {
     }
     if (c == '\t') {
       err |= __assert_fail(
-        stderr,
+        stdout,
         ERROR,
         "Tab character found.",
         filename,
@@ -43,7 +43,7 @@ uint8_t global_char_check(char* filename) {
 
   if (last != '\n') {
     err |= __assert_fail(
-        stderr,
+        stdout,
         ERROR,
         "Carriage return character not found at end of file.",
         filename,

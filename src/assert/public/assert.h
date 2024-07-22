@@ -16,7 +16,7 @@
  */
 #define assert_true(l, v, s) ({ \
   uint8_t _a_temp_ = __assert_true( \
-    stderr, \
+    stdout, \
     l, \
     v, \
     s, \
@@ -38,7 +38,7 @@
  */
 #define assert_false(l, v, s) ({ \
   uint8_t _a_temp_ = __assert_false( \
-    stderr, \
+    stdout, \
     l, \
     v, \
     s, \
@@ -59,7 +59,7 @@
  */
 #define assert_fail(l, s) ({ \
   uint8_t _a_temp_ = __assert_fail( \
-    stderr, \
+    stdout, \
     l, \
     s, \
     __FILE__, \
@@ -82,7 +82,7 @@
 #define assert_equal(l, v1, v2, s) ({ \
   if (v1 != v2) { \
     uint8_t _a_temp_ = __assert_fail( \
-    stderr, \
+    stdout, \
       l, \
       s, \
       __FILE__, \
@@ -106,7 +106,7 @@
 #define assert_notequal(l, v1, v2, s) ({ \
   if (v1 == v2) { \
     uint8_t _a_temp_ = __assert_fail( \
-    stderr, \
+    stdout, \
       l, \
       s, \
       __FILE__, \
@@ -129,7 +129,7 @@
 #define assert_null(l, v, s) ({ \
   if (v) { \
     uint8_t _a_temp_ = __assert_fail( \
-    stderr, \
+    stdout, \
       l, \
       s, \
       __FILE__, \
@@ -152,7 +152,7 @@
 #define assert_notnull(l, v, s) ({ \
   if (!v) { \
     uint8_t _a_temp_ = __assert_fail( \
-    stderr, \
+    stdout, \
       l, \
       s, \
       __FILE__, \

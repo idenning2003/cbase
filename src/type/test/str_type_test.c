@@ -10,7 +10,7 @@ __attribute__((test)) uint8_t str_type_identifier_test() {
   assert_true(
     ERROR,
     !strcmp(type_identifier(str_type), "str"),
-    "String type identifier error."
+    "String type identifier failure."
   );
   return EXIT_SUCCESS;
 }
@@ -23,18 +23,18 @@ __attribute__((test)) uint8_t str_type_destroy_test() {
 }
 
 __attribute__((test)) uint8_t str_type_repr_test() {
-  rope_t* repr;
+  rope_t* rope;
   char* dest,  str[] = "This is a test string!";
 
-  repr = type_repr(str_type, str);
-  dest = rope_str(repr);
+  rope = type_repr(str_type, str);
+  dest = rope_str(rope);
   assert_true(
     ERROR,
     !strcmp("\"This is a test string!\"", dest),
-    "String type repr error."
+    "String type repr failure."
   );
   free(dest);
-  rope_destroy(repr);
+  rope_destroy(rope);
 
   return EXIT_SUCCESS;
 }
@@ -47,13 +47,13 @@ __attribute__((test)) uint8_t str_type_hash_test() {
     ERROR,
     type_hash(str_type, str1),
     type_hash(str_type, str3),
-    "String type hash error."
+    "String type hash failure."
   );
   assert_notequal(
     ERROR,
     type_hash(str_type, str1),
     type_hash(str_type, str2),
-    "String type hash error."
+    "String type hash failure."
   );
   return EXIT_SUCCESS;
 }
@@ -65,17 +65,17 @@ __attribute__((test)) uint8_t str_type_cmp_test() {
   assert_true(
     ERROR,
     type_cmp(str_type, str2, str1) > 0,
-    "String type cmp error."
+    "String type cmp failure."
   );
   assert_true(
     ERROR,
     type_cmp(str_type, str3, str2) < 0,
-    "String type cmp error."
+    "String type cmp failure."
   );
   assert_true(
     ERROR,
     type_cmp(str_type, str1, str3) == 0,
-    "String type cmp error."
+    "String type cmp failure."
   );
   return EXIT_SUCCESS;
 }

@@ -28,18 +28,37 @@ __attribute__((test)) uint8_t object_detatch_test2() {
   return EXIT_SUCCESS;
 }
 
-__attribute__((test)) uint8_t object_type_test1() {
-  object_t* o = object_create(str_type, NULL, false);
+__attribute__((test)) uint8_t object_data_test() {
+  char str[] = "Test string";
+  object_t* o = object_create(str_type, str, false);
   assert_notnull(ERROR, o, "Object allocation failure.");
-  assert_equal(ERROR, str_type, object_typeof(o), "Object type failure.");
+  assert_equal(ERROR, str, object_data(o), "Object data failure.");
   object_destroy(o);
   return EXIT_SUCCESS;
 }
 
-__attribute__((test)) uint8_t object_type_test2() {
+__attribute__((test)) uint8_t object_data_type_test1() {
+  object_t* o = object_create(str_type, NULL, false);
+  assert_notnull(ERROR, o, "Object allocation failure.");
+  assert_equal(
+    ERROR,
+    str_type,
+    object_data_type(o),
+    "Object data type failure."
+  );
+  object_destroy(o);
+  return EXIT_SUCCESS;
+}
+
+__attribute__((test)) uint8_t object_data_type_test2() {
   object_t* o = object_create(ptr_type, NULL, false);
   assert_notnull(ERROR, o, "Object allocation failure.");
-  assert_equal(ERROR, ptr_type, object_typeof(o), "Object type failure.");
+  assert_equal(
+    ERROR,
+    ptr_type,
+    object_data_type(o),
+    "Object data type failure."
+  );
   object_destroy(o);
   return EXIT_SUCCESS;
 }

@@ -36,12 +36,22 @@ void object_destroy(object_t* self) {
 }
 
 /**
+ * @brief Returns refrence to this ojects data
+ *
+ * @param self The object
+ * @return void* Refrence to this ojects data
+ */
+void* object_data(const object_t* self) {
+  return _data;
+}
+
+/**
  * @brief Returns the type of this object
  *
  * @param self The object
  * @return const type_t* The type of this object
  */
-const type_t* object_typeof(const object_t* self) {
+const type_t* object_data_type(const object_t* self) {
   return _type;
 }
 

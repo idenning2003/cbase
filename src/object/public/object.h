@@ -23,7 +23,8 @@ extern const type_t* object_type;
 
 object_t* object_create(const type_t*, void*, bool);
 void object_destroy(object_t*);
-const type_t* object_typeof(const object_t*);
+void* object_data(const object_t*);
+const type_t* object_data_type(const object_t*);
 const char* object_identifier(const object_t*);
 rope_t* object_repr(const object_t*);
 uint64_t object_hash(const object_t*);
