@@ -6,35 +6,26 @@
 #include "l_internal.h"
 #include "type.h"
 
-// TODO Use rope concat instead
+/**
+ * @brief Returns the representation of this list
+ *
+ * @param self The list
+ * @return rope_t* The representation of this list
+ */
 rope_t* list_repr(const list_t* self) {
-  list_t* item_reprs = list_create(str_type, true);
-  char* item_repr;
+  rope_t* rope, *temp;
   __list_node_t* n = &_head;
-  size_t len = 0;
+  rope = rope_create("[");
   while ((n = n->next) != &_tail) {
-    rope_t* rope = type_repr(_type, n->data);
-    item_repr = rope_str(rope);
-    list_append(item_reprs, item_repr);
-    len += strlen(item_repr) + 2;
-    rope_destroy(rope);
+    temp = type_repr(_type, n->data);
+    rope_add(rope, temp);
+    if (n->next != &_tail)
+      rope_concat(rope, ", ");
+    rope_destroy(temp);
   }
+  rope_append(rope, ']');
 
-  char* repr_iter, *repr = (char*)malloc(sizeof(*repr) * (len + 3));
-  repr[0] = '[';
-  repr_iter = repr + 1;
-  list_head(item_reprs);
-  while (!list_next(item_reprs, (void**)&item_repr)) {
-    int len2;
-    if (list_has_next(item_reprs))
-      sprintf(repr_iter, "%s, %n", item_repr, &len2);
-    else
-      sprintf(repr_iter, "%s%n", item_repr, &len2);
-    repr_iter += len2;
-  }
-  sprintf(repr_iter, "]");
-  list_destroy(item_reprs);
-  return repr;
+  return rope;
 }
 
 /**

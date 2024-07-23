@@ -59,7 +59,7 @@ __attribute__((test)) uint8_t list_mixed_type_test() {
   rope_t* rope = type_repr(list_type, l);
   char* str = rope_str(rope);
   assert_false(ERROR, strcmp(solution, str), "List multitype failure.");
-  free(rope);
+  rope_destroy(rope);
   free(str);
 
   list_destroy(l);

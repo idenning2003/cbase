@@ -14,7 +14,7 @@
 rope_t* str_repr(const void* s) {
   char* temp = (char*)malloc(sizeof(*temp) * (strlen(s) + 3));
   sprintf(temp, "\"%s\"", (const char*)s);
-  rope_t* r = rope_create_with(temp);
+  rope_t* r = rope_create(temp);
   free(temp);
   return r;
 }

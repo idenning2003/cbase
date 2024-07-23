@@ -28,7 +28,8 @@
         "github.vscode-github-actions",
         "shardulm94.trailing-spaces",
         "cschlosser.doxdocgen",
-        "gruntfuggly.todo-tree"
+        "gruntfuggly.todo-tree",
+        "ms-vscode.hexeditor"
       ]
     }
   },

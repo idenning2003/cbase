@@ -17,7 +17,7 @@ rope_t* ptr_repr(const void* p) {
     (sizeof(long long) * 2 - __builtin_clzll((ptrdiff_t)p) / 4 + 5)
   );
   sprintf(str, "\"%p\"", p);
-  rope_t* r = rope_create_with(str);
+  rope_t* r = rope_create(str);
   free(str);
   return r;
 }

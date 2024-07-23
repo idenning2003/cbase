@@ -3,6 +3,7 @@
         {
             "name": "Linux",
             "includePath": [
+                "/usr/include/",
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/src/**/public/"
             ],
@@ -13,7 +14,8 @@
             "intelliSenseMode": "${default}",
             "compilerArgs": [
                 "-Wall -Wextra -Werror -gdwarf-4 -g3"
-            ]
+            ],
+            "configurationProvider": "ms-vscode.makefile-tools"
         }
     ],
     "version": 4
