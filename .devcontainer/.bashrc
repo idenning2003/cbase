@@ -5,3 +5,5 @@ else
 fi
 alias ls='ls -Aph --group-directories-first --color=auto'
 alias hexdump='hexdump -C'
+source /etc/bash/bash_completion.sh
+export HISTCONTROL=ignoreboth:erasedups
