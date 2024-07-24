@@ -2,7 +2,7 @@ FROM alpine:latest
 
 RUN apk update && \
     apk upgrade && \
-    apk add --no-cache sudo bash zsh gcc gdb gcovr make libc-dev valgrind tar git openssh-client
+    apk add --no-cache sudo bash zsh gcc gdb gcovr make libc-dev valgrind tar git openssh-client bash-completion
 
 ARG USERNAME=dev
 ARG USER_UID=1000
