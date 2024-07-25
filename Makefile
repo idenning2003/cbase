@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 CC := gcc
 CFLAGS := -Wall -Wextra -Werror
-LIBS := -lm
+LIBS := -lc -lm
 
 SDIR := src/
 ODIR := obj/

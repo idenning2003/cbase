@@ -18,7 +18,7 @@ rope_t* list_repr(const list_t* self) {
   rope = rope_create("[");
   while ((n = n->next) != &_tail) {
     temp = type_repr(_type, n->data);
-    rope_add(rope, temp);
+    rope_adjoin(rope, temp);
     if (n->next != &_tail)
       rope_concat(rope, ", ");
     rope_destroy(temp);

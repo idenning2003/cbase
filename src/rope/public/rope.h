@@ -14,9 +14,11 @@ void rope_destroy(rope_t*);
 rope_t* rope_copy(const rope_t*);
 uint8_t rope_concat(rope_t*, const char*);
 uint8_t rope_append(rope_t*, char);
-uint8_t rope_add(rope_t*, const rope_t*);
+uint8_t rope_adjoin(rope_t*, const rope_t*);
 char* rope_str(const rope_t*);
 
 void __rope_print(FILE*, const rope_t*);
+
+void __rope_balance(rope_t* self);
 
 #endif
