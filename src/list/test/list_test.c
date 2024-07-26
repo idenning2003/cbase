@@ -8,8 +8,6 @@
 #include "list.h"
 #include "object.h"
 
-FILE *fmemopen(void *__restrict, size_t, const char *__restrict);
-
 void rand_int_arr(int* arr, size_t len) {
   size_t i;
   bool flag[len];
