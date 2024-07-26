@@ -5,8 +5,6 @@
 #include "assert.h"
 #include "type.h"
 
-FILE *fmemopen(void *__restrict, size_t, const char *__restrict);
-
 /// @brief NULL test type
 const type_t* null_test_type = &(type_t){
   .identifier = "null test",

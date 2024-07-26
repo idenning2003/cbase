@@ -5,8 +5,6 @@
 #include "assert.h"
 #include "a_internal.h"
 
-FILE *fmemopen(void *__restrict, size_t, const char *__restrict);
-
 __attribute__((test)) uint8_t assert_error_true_test1() {
   size_t size = 200;
   char* buf = (char*)malloc(sizeof(*buf) * size);
