@@ -24,6 +24,8 @@ typedef struct Type {
   const char* identifier;
   /// @brief Destroys an object of this type
   void (*const destroy)(void*);
+  /// @brief Returns a copy of an object of this type
+  void* (*const copy)(const void*);
   /// @brief Returns a representation of an object of this type
   rope_t* (*const repr)(const void*);
   /// @brief Returns a hash of an object of this type
@@ -35,8 +37,9 @@ typedef struct Type {
 extern const type_t* ptr_type;
 extern const type_t* str_type;
 
-void type_destroy(const type_t*, void*);
 const char* type_identifier(const type_t*);
+void type_destroy(const type_t*, void*);
+void* type_copy(const type_t*, const void*);
 rope_t* type_repr(const type_t*, const void*);
 uint64_t type_hash(const type_t*, const void*);
 int type_cmp(const type_t*, const void*, const void*);

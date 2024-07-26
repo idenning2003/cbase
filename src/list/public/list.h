@@ -26,6 +26,7 @@ extern const type_t* list_type;
 
 list_t* list_create(const type_t*, bool);
 void list_destroy(list_t*);
+list_t* list_copy(const list_t*);
 size_t list_size(const list_t*);
 uint8_t list_head(list_t*);
 uint8_t list_tail(list_t*);
@@ -42,7 +43,6 @@ uint8_t list_clear(list_t*);
 uint8_t list_delete(list_t*, size_t);
 uint8_t list_remove(list_t*, const list_item_t*);
 uint8_t list_purge(list_t*, const list_item_t*);
-list_t* list_copy(const list_t*);
 uint8_t list_reverse(list_t*);
 uint8_t list_order(list_t*);
 uint8_t list_unorder(list_t*);

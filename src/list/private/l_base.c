@@ -52,6 +52,24 @@ void list_destroy(list_t* self) {
 }
 
 /**
+ * @brief Creates a copy of this list
+ *
+ * @param self The list
+ * @return list_t* The copy
+ */
+list_t* list_copy(const list_t* self) {
+  list_t* other = list_create(_type, _connect_destroy);
+  __list_node_t* n = &_head;
+  while ((n = n->next) != &_tail)
+    list_append(other, type_copy(_type, n->data));
+  if (_reversed)
+    list_reverse(other);
+  if (_ordered)
+    list_order(other);
+  return other;
+}
+
+/**
  * @brief The number of items are in the list
  *
  * @param self The list
@@ -342,24 +360,6 @@ uint8_t list_purge(list_t* self, const list_item_t* item) {
   if (!found)
     return ENOENT;
   return EXIT_SUCCESS;
-}
-
-/**
- * @brief Creates a copy of this list
- *
- * @param self The list
- * @return list_t* The copy
- */
-list_t* list_copy(const list_t* self) {
-  list_t* other = list_create(_type, _connect_destroy);
-  __list_node_t* n = &_head;
-  while ((n = n->next) != &_tail)
-    list_append(other, n->data);
-  if (_reversed)
-    list_reverse(other);
-  if (_ordered)
-    list_order(other);
-  return other;
 }
 
 /**

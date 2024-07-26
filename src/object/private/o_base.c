@@ -36,6 +36,16 @@ void object_destroy(object_t* self) {
 }
 
 /**
+ * @brief Returns a copy of this object
+ *
+ * @param self The object
+ * @return void* A copy of this object
+ */
+object_t* object_copy(const void* self) {
+  return object_create(_type, type_copy(_type, _data), true);
+}
+
+/**
  * @brief Returns refrence to this ojects data
  *
  * @param self The object
