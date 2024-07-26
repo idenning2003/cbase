@@ -10,18 +10,6 @@
 #include "global.h"
 #include "g_test.h"
 
-#ifndef DT_DIR
-  #define DT_DIR 4
-#endif
-
-#ifndef DT_REG
-  #define DT_REG 2
-#endif
-
-#ifndef PATH_MAX
-  #define PATH_MAX 4096
-#endif
-
 __attribute__((test)) int global_test() {
   char cwd[PATH_MAX];
   assert_notnull(ERROR, getcwd(cwd, sizeof(cwd)), "Could not get CWD.");

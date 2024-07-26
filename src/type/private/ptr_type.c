@@ -6,6 +6,16 @@
 #include "type.h"
 
 /**
+ * @brief Return a copy of this pointer
+ *
+ * @param s The pointer
+ * @return void* The copy of this pointer
+ */
+void* ptr_copy(const void* p) {
+  return (void*)p;
+}
+
+/**
  * @brief Return a representation of this pointer in a rope_t
  *
  * @param p The pointer
@@ -47,6 +57,7 @@ int ptr_cmp(const void* p1, const void* p2) {
 const type_t* ptr_type = &(type_t){
   .identifier = "ptr",
   .destroy = NULL,
+  .copy = ptr_copy,
   .repr = ptr_repr,
   .hash = ptr_hash,
   .cmp = ptr_cmp

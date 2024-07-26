@@ -6,6 +6,18 @@
 #include "type.h"
 
 /**
+ * @brief Return a copy of this string
+ *
+ * @param s The string
+ * @return void* The copy of this string
+ */
+void* str_copy(const void* s) {
+  char* copy = (char*)malloc(sizeof(*copy) * (strlen(s) + 1));
+  strcpy(copy, s);
+  return copy;
+}
+
+/**
  * @brief Return a representation of this string in a rope_t
  *
  * @param s The string
@@ -38,6 +50,7 @@ uint64_t str_hash(const void* s) {
 const type_t* str_type = &(type_t){
   .identifier = "str",
   .destroy = free,
+  .copy = str_copy,
   .repr = str_repr,
   .hash = str_hash,
   .cmp = (int (*const)(const void *, const void *))strcmp

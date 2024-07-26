@@ -5,8 +5,6 @@
 #include "assert.h"
 #include "object.h"
 
-FILE *fmemopen(void *__restrict, size_t, const char *__restrict);
-
 __attribute__((test)) uint8_t object_create_test() {
   object_t* o = object_create(ptr_type, NULL, true);
   assert_notnull(ERROR, o, "Object allocation failure.");
@@ -27,6 +25,22 @@ __attribute__((test)) uint8_t object_detatch_test2() {
   object_t* o = object_create(str_type, NULL, false);
   assert_notnull(ERROR, o, "Object allocation failure.");
   object_destroy(o);
+  return EXIT_SUCCESS;
+}
+
+__attribute__((test)) uint8_t object_copy_test1() {
+  char str[] = "Test";
+  object_t* o = object_create(str_type, str, false);
+  assert_notnull(ERROR, o, "Object allocation failure.");
+  object_t* o2 = object_copy(o);
+  assert_notnull(ERROR, o2, "Object allocation failure.");
+  object_destroy(o);
+  assert_false(
+    ERROR,
+    strcmp(object_data(o2), "Test"),
+    "Object data failure."
+  );
+  object_destroy(o2);
   return EXIT_SUCCESS;
 }
 

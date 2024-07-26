@@ -10,6 +10,12 @@ void type_destroy_call_test_func(void*) {
   is_type_destroy_call_test_passed = true;
 }
 
+bool is_type_copy_call_test_passed = false;
+void* type_copy_call_test_func(const void*) {
+  is_type_copy_call_test_passed = true;
+  return NULL;
+}
+
 bool is_type_repr_call_test_passed = false;
 rope_t* type_repr_call_test_func(const void*) {
   is_type_repr_call_test_passed = true;
@@ -31,6 +37,7 @@ int type_cmp_call_test_func(const void*, const void*) {
 const type_t* type_func_test = &(type_t){
   .identifier = "func_test",
   .destroy = type_destroy_call_test_func,
+  .copy = type_copy_call_test_func,
   .repr = type_repr_call_test_func,
   .hash = type_hash_call_test_func,
   .cmp = type_cmp_call_test_func
@@ -47,6 +54,21 @@ __attribute__((test)) uint8_t type_call_destroy_test() {
     ERROR,
     is_type_destroy_call_test_passed,
     "destroy function not called."
+  );
+  return EXIT_SUCCESS;
+}
+
+__attribute__((test)) uint8_t type_call_copy_test() {
+  assert_false(
+    ERROR,
+    is_type_copy_call_test_passed,
+    "Not propperly set up."
+  );
+  type_copy(type_func_test, NULL);
+  assert_true(
+    ERROR,
+    is_type_copy_call_test_passed,
+    "copy function not called."
   );
   return EXIT_SUCCESS;
 }

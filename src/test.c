@@ -13,24 +13,6 @@
 #define GRN "\x1B[32m"
 #define RST "\x1B[0m"
 
-#ifndef DT_DIR
-  #define DT_DIR 4
-#endif
-
-#ifndef DT_REG
-  #define DT_REG 2
-#endif
-
-#ifndef PATH_MAX
-  #define PATH_MAX 4096
-#endif
-
-#ifndef WEXITSTATUS
-  #define WEXITSTATUS(p) 0
-#endif
-
-FILE *popen(const char *, const char *);
-
 int main(UNUSED int argc, UNUSED char* argv[]) {
   char dir[] = "bin/tests/";
   DIR *dr = opendir(dir);

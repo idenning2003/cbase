@@ -9,6 +9,7 @@
 const type_t* null_test_type = &(type_t){
   .identifier = "null test",
   .destroy = NULL,
+  .copy = NULL,
   .repr = NULL,
   .hash = NULL,
   .cmp = NULL
@@ -16,6 +17,16 @@ const type_t* null_test_type = &(type_t){
 
 __attribute__((test)) uint8_t type_null_destroy_test() {
   type_destroy(null_test_type, NULL);
+  return EXIT_SUCCESS;
+}
+
+__attribute__((test)) uint8_t type_null_copy_test() {
+  assert_equal(
+    ERROR,
+    (void*)0x38,
+    type_copy(null_test_type, (void*)0x38),
+    "NULL copy type failure."
+  );
   return EXIT_SUCCESS;
 }
 

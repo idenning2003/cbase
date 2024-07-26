@@ -5,6 +5,7 @@
 const type_t* object_type = &(type_t){
   .identifier = "object",
   .destroy = object_destroy,
+  .copy = object_copy,
   .repr = object_repr,
   .hash = object_hash,
   .cmp = object_cmp
