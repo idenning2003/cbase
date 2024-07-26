@@ -34,6 +34,95 @@ __attribute__((test)) uint8_t list_create_destroy_test() {
   return EXIT_SUCCESS;
 }
 
+__attribute__((test)) uint8_t list_copy_unorderd_test() {
+  list_t* l = list_create(ptr_type, true);
+  size_t i, len = 10;
+  list_item_t* item;
+  assert_notnull(ERROR, l, "List allocation failure.");
+
+  for (i = 0; i < len; i++) {
+    assert_false(
+      ERROR,
+      list_append(l, (list_item_t*)i),
+      "List append failure."
+    );
+  }
+
+  list_t* other = list_copy(l);
+  list_destroy(l);
+
+  assert_false(ERROR, list_head(other), "List head failure.");
+  for (i = 0; i < len; i++) {
+    assert_false(ERROR, list_next(other, &item), "List next failure.");
+    assert_equal(ERROR, item, (list_item_t*)i, "List item failure.");
+  }
+  assert_true(ERROR, list_next(other, &item), "List next failure.");
+
+  list_destroy(other);
+  return EXIT_SUCCESS;
+}
+
+__attribute__((test)) uint8_t list_copy_orderd_test() {
+  list_t* l = list_create(ptr_type, true);
+  size_t i, len = 10;
+  list_item_t* item;
+  assert_notnull(ERROR, l, "List allocation failure.");
+  assert_false(ERROR, list_order(l), "List order failure.");
+
+  for (i = 0; i < len; i++) {
+    assert_false(
+      ERROR,
+      list_insert(l, (list_item_t*)i),
+      "List insert failure."
+    );
+  }
+
+  list_t* other = list_copy(l);
+  list_destroy(l);
+
+  assert_false(ERROR, list_head(other), "List head failure.");
+  for (i = 0; i < len; i++) {
+    assert_false(ERROR, list_next(other, &item), "List next failure.");
+    assert_equal(ERROR, item, (list_item_t*)i, "List item failure.");
+  }
+  assert_true(ERROR, list_next(other, &item), "List next failure.");
+
+  list_destroy(other);
+  return EXIT_SUCCESS;
+}
+
+__attribute__((test)) uint8_t list_copy_reverse_orderd_test() {
+  list_t* l = list_create(ptr_type, true);
+  size_t i, len = 10;
+  list_item_t* item;
+  assert_notnull(ERROR, l, "List allocation failure.");
+  assert_false(ERROR, list_order(l), "List order failure.");
+  assert_false(ERROR, list_reverse(l), "List reverse failure.");
+
+  for (i = 0; i < len; i++) {
+    assert_false(
+      ERROR,
+      list_insert(l, (list_item_t*)i),
+      "List insert failure."
+    );
+  }
+
+  list_t* other = list_copy(l);
+  list_destroy(l);
+
+  assert_false(ERROR, list_head(other), "List head failure.");
+  for (i = len - 1; i > 0; i--) {
+    assert_false(ERROR, list_next(other, &item), "List next failure.");
+    assert_equal(ERROR, item, (list_item_t*)i, "List item failure.");
+  }
+  assert_false(ERROR, list_next(other, &item), "List next failure.");
+  assert_equal(ERROR, item, (list_item_t*)i, "List item failure.");
+  assert_true(ERROR, list_next(other, &item), "List next failure.");
+
+  list_destroy(other);
+  return EXIT_SUCCESS;
+}
+
 __attribute__((test)) uint8_t list_mixed_type_test() {
   list_t* l = list_create(object_type, true);
   object_t* o;
@@ -1045,95 +1134,6 @@ __attribute__((test)) uint8_t list_purge_unfound_ordered_test() {
   );
 
   list_destroy(l);
-  return EXIT_SUCCESS;
-}
-
-__attribute__((test)) uint8_t list_copy_unorderd_test() {
-  list_t* l = list_create(ptr_type, true);
-  size_t i, len = 10;
-  list_item_t* item;
-  assert_notnull(ERROR, l, "List allocation failure.");
-
-  for (i = 0; i < len; i++) {
-    assert_false(
-      ERROR,
-      list_append(l, (list_item_t*)i),
-      "List append failure."
-    );
-  }
-
-  list_t* other = list_copy(l);
-  list_destroy(l);
-
-  assert_false(ERROR, list_head(other), "List head failure.");
-  for (i = 0; i < len; i++) {
-    assert_false(ERROR, list_next(other, &item), "List next failure.");
-    assert_equal(ERROR, item, (list_item_t*)i, "List item failure.");
-  }
-  assert_true(ERROR, list_next(other, &item), "List next failure.");
-
-  list_destroy(other);
-  return EXIT_SUCCESS;
-}
-
-__attribute__((test)) uint8_t list_copy_orderd_test() {
-  list_t* l = list_create(ptr_type, true);
-  size_t i, len = 10;
-  list_item_t* item;
-  assert_notnull(ERROR, l, "List allocation failure.");
-  assert_false(ERROR, list_order(l), "List order failure.");
-
-  for (i = 0; i < len; i++) {
-    assert_false(
-      ERROR,
-      list_insert(l, (list_item_t*)i),
-      "List insert failure."
-    );
-  }
-
-  list_t* other = list_copy(l);
-  list_destroy(l);
-
-  assert_false(ERROR, list_head(other), "List head failure.");
-  for (i = 0; i < len; i++) {
-    assert_false(ERROR, list_next(other, &item), "List next failure.");
-    assert_equal(ERROR, item, (list_item_t*)i, "List item failure.");
-  }
-  assert_true(ERROR, list_next(other, &item), "List next failure.");
-
-  list_destroy(other);
-  return EXIT_SUCCESS;
-}
-
-__attribute__((test)) uint8_t list_copy_reverse_orderd_test() {
-  list_t* l = list_create(ptr_type, true);
-  size_t i, len = 10;
-  list_item_t* item;
-  assert_notnull(ERROR, l, "List allocation failure.");
-  assert_false(ERROR, list_order(l), "List order failure.");
-  assert_false(ERROR, list_reverse(l), "List reverse failure.");
-
-  for (i = 0; i < len; i++) {
-    assert_false(
-      ERROR,
-      list_insert(l, (list_item_t*)i),
-      "List insert failure."
-    );
-  }
-
-  list_t* other = list_copy(l);
-  list_destroy(l);
-
-  assert_false(ERROR, list_head(other), "List head failure.");
-  for (i = len - 1; i > 0; i--) {
-    assert_false(ERROR, list_next(other, &item), "List next failure.");
-    assert_equal(ERROR, item, (list_item_t*)i, "List item failure.");
-  }
-  assert_false(ERROR, list_next(other, &item), "List next failure.");
-  assert_equal(ERROR, item, (list_item_t*)i, "List item failure.");
-  assert_true(ERROR, list_next(other, &item), "List next failure.");
-
-  list_destroy(other);
   return EXIT_SUCCESS;
 }
 

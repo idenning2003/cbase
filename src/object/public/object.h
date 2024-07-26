@@ -23,12 +23,13 @@ extern const type_t* object_type;
 
 object_t* object_create(const type_t*, void*, bool);
 void object_destroy(object_t*);
+object_t* object_copy(const void*);
 void* object_data(const object_t*);
 const type_t* object_data_type(const object_t*);
 const char* object_identifier(const object_t*);
 rope_t* object_repr(const object_t*);
 uint64_t object_hash(const object_t*);
-int object_cmp(const object_t* self, const object_t* other);
+int object_cmp(const object_t*, const object_t*);
 void __object_print(FILE*, const object_t*);
 
 #endif

@@ -56,6 +56,7 @@ uint64_t list_hash(const list_t* self) {
 const type_t* list_type = &(type_t){
   .identifier = "list",
   .destroy = list_destroy,
+  .copy = list_copy,
   .repr = list_repr,
   .hash = list_hash,
   .cmp = list_cmp

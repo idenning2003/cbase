@@ -18,7 +18,7 @@ const char* type_identifier(const type_t* t) {
  * @brief Destroys an object of this type
  *
  * @param t The type
- * @param self the object to destroy
+ * @param self The object to destroy
  */
 void type_destroy(const type_t* t, void* self) {
   if (t->destroy != NULL)
@@ -26,10 +26,23 @@ void type_destroy(const type_t* t, void* self) {
 }
 
 /**
+ * @brief Returns the comparison of two object of this type
+ *
+ * @param t The type
+ * @param self The object to copy
+ * @return void* The copy of the object
+ */
+void* type_copy(const type_t* t, const void* self) {
+  if (t->copy == NULL)
+    return type_copy(ptr_type, self);
+  return t->copy(self);
+}
+
+/**
  * @brief Returns a representation of an object of this type
  *
  * @param t The type
- * @param self the object to represent
+ * @param self The object to represent
  * @return rope_t* Representation of the object
  *
  * @note The returned rope must be destroyed after use

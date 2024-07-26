@@ -22,6 +22,24 @@ __attribute__((test)) uint8_t str_type_destroy_test() {
   return EXIT_SUCCESS;
 }
 
+__attribute__((test)) uint8_t str_type_copy_test() {
+  char str1[] = "This is a test string!";
+  char* str2 = type_copy(str_type, str1);
+  assert_notequal(
+    ERROR,
+    str1,
+    str2,
+    "String copy pointer failure."
+  );
+  assert_false(
+    ERROR,
+    strcmp(str1, str2),
+    "String copy data failure."
+  );
+  type_destroy(str_type, str2);
+  return EXIT_SUCCESS;
+}
+
 __attribute__((test)) uint8_t str_type_repr_test() {
   rope_t* rope;
   char* dest,  str[] = "This is a test string!";
