@@ -7,6 +7,7 @@
 
 #include "global.h"
 #include "assert.h"
+#include "integer.h"
 #include "list.h"
 
 int main(UNUSED int argc, UNUSED char* argv[]) {
