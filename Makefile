@@ -34,12 +34,14 @@ debug: | clean all
 
 coverage: CFLAGS += --coverage -O0
 coverage: | clean debug
-	@$(EDIR)$(TEST)
 	@if [ ! -d "$(CDIR)" ]; then \
 		mkdir -p $(CDIR); \
 		printf "make: \033[1;34m$(CDIR)\033[0m\n"; \
 	fi
-	@gcovr -e "(.*/)test/" -e "src/test.c" -e "src/main.c" --root . --sort uncovered-percent --html --html-nested --html-title "cbase coverage" --html-template-dir .github/pages/default --html-theme github.dark-green --html-syntax-highlighting --output coverage/coverage.html
+	@$(EDIR)$(TEST)
+	@gcovr -e "(.*/)test/" -e "src/test.c" -e "src/main.c" --root . --sort uncovered-percent
+	@gcovr -e "(.*/)test/" -e "src/test.c" -e "src/main.c" --root . --lcov coverage/lcov.info &> /dev/null
+	@gcovr -e "(.*/)test/" -e "src/test.c" -e "src/main.c" --root . --sort uncovered-percent --html --html-nested --html-title "cbase coverage" --html-template-dir .github/pages/default --html-theme github.dark-green --html-syntax-highlighting --output coverage/coverage.html &> /dev/null
 	@cp .github/pages/resources/* coverage/
 	@rm -rf $(ODIR) $(EDIR)
 
