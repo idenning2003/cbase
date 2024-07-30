@@ -1,4 +1,4 @@
-# cbase - Library of C data structures and tests
+# cbase - Library of C Data Structures and Tests
 This project contains a collection of useful data structures that are set up in
 an almost object-oriented manner.
 
@@ -6,7 +6,7 @@ I built this project to set up an environment for future C projects and provide
 a long-term project that I could work on indefinitely, as more can always be
 improved.
 
-## Table Of Content
+## Table of Contents
 1. [Overview](#overview)
     * [Public](#public)
     * [Private](#private)

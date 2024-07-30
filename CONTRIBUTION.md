@@ -4,7 +4,7 @@ there is something not covered by this document, please use your best judgment
 or ask in the
 [discussions tab](http://github.com/idenning2003/cbase/discussions).
 
-## Table Of Contents
+## Table of Contents
 1. [Guidelines](#guidelines)
 2. [Rules](#rules)
     1. [Follow The Layout](#1-follow-the-layout)
