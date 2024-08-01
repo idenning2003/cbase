@@ -1,3 +1,4 @@
+#!/usr/bin/make -f
 SHELL := /bin/bash
 CC := gcc
 CFLAGS := -Wall -Wextra -Werror
