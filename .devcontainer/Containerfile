@@ -1,0 +1,32 @@
+FROM alpine:latest
+
+ARG USERNAME=dev
+ARG UID=1000
+ARG GID=$UID
+
+RUN apk update && \
+    apk upgrade
+RUN apk add sudo
+
+RUN adduser -D -u $UID -g $GID $USERNAME \
+    && addgroup $USERNAME wheel \
+    && sed -i 's/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/g' /etc/sudoers
+
+USER $USERNAME
+
+RUN sudo apk add --no-cache \
+    build-base \
+    gdb \
+    valgrind \
+    doxygen \
+    python3 \
+    pipx \
+    bash \
+    grep \
+    bash-completion \
+    git
+
+RUN pipx ensurepath
+RUN pipx install cpplint
+
+CMD ["bash"]
