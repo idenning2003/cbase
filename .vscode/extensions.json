@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode.makefile-tools",
+        "shardulm94.trailing-spaces",
+        "cschlosser.doxdocgen",
+        "editorconfig.editorconfig"
+    ],
+}
