@@ -1,0 +1,36 @@
+name: Check
+
+on:
+  workflow_call:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y clang-tidy
+          pip install cpplint
+
+      - name: Lint check
+        run: |
+          make lint
+
+  format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt install -y clang-format
+
+      - name: Format check
+        run: |
+          make format

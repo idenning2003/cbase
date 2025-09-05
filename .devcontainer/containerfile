@@ -18,7 +18,8 @@ RUN sudo apk add --no-cache \
     build-base \
     gdb \
     valgrind \
-    doxygen \
+    clang-tidy \
+    clang-lint \
     python3 \
     pipx \
     bash \

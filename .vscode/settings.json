@@ -1,0 +1,12 @@
+{
+    "editor.rulers": [80],
+    "editor.formatOnSave": true,
+    "[c]": {
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "[h]": {
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "clang-format.assumeFilename": ".clang-format",
+    "clang-format.fallbackStyle": "Google"
+}

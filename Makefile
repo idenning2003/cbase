@@ -3,11 +3,6 @@ CC := gcc
 CFLAGS := -Wall -Wextra -Werror
 DEGUBFLAGS := -gdwarf-4 -g3
 
-# Static analysis settings
-LINT := cpplint
-DOXYGEN := doxygen
-DOXYFILE := Doxyfile
-
 # Directories
 SRC_DIR := src/
 OBJ_DIR := obj/
@@ -110,25 +105,28 @@ define ensure-dir
 endef
 
 # Default build target
-default: release
-
-# Release build target
-release: lint doxygen $(OUTS_RELEASE)
+default: debug
 
 # Debug build target
-debug: lint doxygen $(OUTS_DEBUG)
+debug: $(OUTS_DEBUG)
+
+# Release build target
+release: $(OUTS_RELEASE)
 
 # Remove generated files
 clean:
-	@rm -rf $(OUTS_RELEASE) $(OBJS_RELEASE) $(OUTS_DEBUG) $(OBJS_DEBUG) $(OBJ_DIR) $(OUT_DIR) doxy
+	@rm -rf \
+		$(OUTS_RELEASE) $(OBJS_RELEASE) $(OUTS_DEBUG) \
+		$(OBJS_DEBUG) $(OBJ_DIR) $(OUT_DIR)
+
+# Format code
+format:
+	clang-format -style=file -assume-filename=.c --dry-run --Werror $(SRCS) $(HEDS)
 
 # Linting check
 lint:
-	@$(LINT) --quiet --filter=-legal/copyright $(SRCS) $(HEDS)
-
-# Doxygen generation
-doxygen:
-	@$(DOXYGEN) $(DOXYFILE)
+	cpplint --quiet --filter=-legal/copyright --root=$(SRC_DIR) $(SRCS) $(HEDS)
+	clang-tidy -header-filter='src/.*' --warnings-as-errors=* $(SRCS) -- $(INCS) $(LIBS)
 
 # Release - Link objects into executablea
 $(OUT_DIR)$(RELEASE_DIR)%: $(OBJ_DIR)$(RELEASE_DIR)%.o $(OBJS_NONENTRY_RELEASE)
@@ -154,6 +152,6 @@ $(OBJ_DIR)$(DEBUG_DIR)%.o: $(SRC_DIR)%.c $(HEDS)
 	@printf "make: $@\n"
 	@$(CC) -c -o $@ $< $(CFLAGS) $(DEGUBFLAGS) $(INCS) $(LIBS)
 
-.PHONY: default release debug clean lint doxygen
+.PHONY: default release debug clean format lint
 
 .PRECIOUS: $(OBJS_RELEASE) $(OBJS_DEBUG)
