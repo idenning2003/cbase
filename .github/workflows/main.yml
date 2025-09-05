@@ -10,5 +10,11 @@ jobs:
   check:
     uses: ./.github/workflows/check.yml
 
+  test:
+    uses: ./.github/workflows/test.yml
+
   build:
     uses: ./.github/workflows/build.yml
+
+  report:
+    uses: ./.github/workflows/report.yml

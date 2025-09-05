@@ -2,10 +2,10 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Make Debug",
+            "label": "Make main",
             "type": "shell",
             "command": "make",
-            "args": ["debug"],
+            "args": ["dev"],
             "group": {
                 "kind": "build",
                 "isDefault": true

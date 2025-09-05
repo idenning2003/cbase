@@ -4,24 +4,24 @@ on:
   workflow_call:
 
 jobs:
-  debug:
+  dev:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Make debug
+      - name: Make Development
         run: |
-          make debug
+          make dev
 
-  release:
+  prod:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Make release
+      - name: Make Production
         run: |
-          make release
+          make prod

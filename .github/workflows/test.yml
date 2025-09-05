@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 jobs:
-  lint:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,9 +14,8 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt update
-          sudo apt install -y clang-tidy
-          pip install cpplint
+          sudo apt install -y valgrind
 
-      - name: Lint Check
+      - name: Make Test
         run: |
-          make lint
+          make test
